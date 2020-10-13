@@ -25,6 +25,7 @@ Route::group(['prefix' => 'backoffice', 'middleware' => ['auth']], function() {
     // backoffice route
     Route::get('/', 'DashboardController@index');
     Route::get('dashboard',['as' => 'backoffice.dashboard','uses' => 'DashboardController@dashboard']);
+    Route::get('logs',['as' => 'logs','uses' => 'ActivityController@index']);
     Route::resource('users','UserController');
     Route::resource('permissions', 'PermissionController');
     Route::resource('roles', 'RoleController');
