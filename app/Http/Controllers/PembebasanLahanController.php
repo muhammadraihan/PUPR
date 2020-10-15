@@ -68,7 +68,54 @@ class PembebasanLahanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'pekerjaan_id' => 'required',
+            'kebutuhan' => 'required',
+            'sudah_bebas' => 'required',
+            'belum_bebas' => 'required',
+            'permasalahan' => 'required',
+            'tindak_lanjut' => 'required',
+            'dokumentasi_id' => 'required|mimes:pdf,xlx,csv|max:2048',
+        ]);
+
+        $messages = [
+            '*.required' => 'Data Harus Di isi',
+            '*.mimes' => 'Type File Harus pdf',
+            '*.max' => 'Size File Tidak Boleh Lebih Dari 2Mb'
+        ];
+        
+            if($request->hasfile('dokumentasi_id')){
+                $file = $request->file('dokumentasi_id');
+                $filename = md5(uniqid(mt_rand(),true)).'.'.$file->getClientOriginalExtension();
+                $path = Storage::putFileAs('public/pembebasanLahan/',$file,$filename);
+            }
+            $document = new pembebasanLahan();
+            $document->nama = $request->nama;
+            $document->no_document = $request->no_document;
+            $document->jenis_dokumen_id = $request->jenis_dokumen_id;
+            $document->edisi = $request->edisi;
+            $document->revisi = $request->revisi;
+            $document->efektif = Carbon::parse($request->efektif)->format('Y-m-d');
+            $document->jumlah_halaman = $request->jumlah_halaman;
+            $document->dokument = $filename;
+            $document->siklus_id = $siklus->uuid;
+            $document->gjm_id = $request->unit;
+            $document->gkm_id = null;
+            $document->role_id = $role->id;
+            $document->created_by = Auth::user()->uuid;
+            $document->save();
+
+            // $gugus = new GugusTugas();
+            // $gugus->user_id = Auth::user()->id;
+            // $gugus->siklus_id = $siklus->id;
+            // $gugus->gjm_id = isset(Auth::user()->gkm_id[0]) ? Auth::user()->gkm_id[0] : '0';
+            // $gugus->gkm_id = isset(Auth::user()->gkm_id[0]) ? Auth::user()->gkm_id[0] : '0';
+            // $gugus->is_upload = 1;
+            // $gugus->is_skoring = 0;
+            // $gugus->save();
+
+            toastr()->success('New Document Added', 'Success');
+            return redirect()->route('documents.index');
     }
 
     /**

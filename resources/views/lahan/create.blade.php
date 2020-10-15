@@ -80,7 +80,7 @@
 
                     <div class="form-group col-md-6 mb-3">
                         {{ Form::label('document','Dokumentasi',['class' => 'required form-label'])}}
-                        <input type="file" id="filecontrol" name="dokumentasi" class="form-control">
+                        <input type="file" id="filecontrol" name="dokumentasi_id" class="form-control">
                         @if ($errors->has('document'))
                         <div class="invalid-feedback">{{ $errors->first('document') }}</div>
                         @endif
