@@ -43,6 +43,13 @@
                     <span class="nav-link-text">Dashboard</span>
                 </a>
             </li>
+            <li>
+                        <a href="{{route('satker.index')}}" title="Satker Managements"
+                            data-filter-tags="satker managements">
+                            <span class="nav-link-text" data-i18n="nav.roles_managements">Satker
+                                Management</span>
+                        </a>
+            </li>
             @hasanyrole('superadmin')
             <li class="nav-title">ACL & Settings</li>
             <li class="">

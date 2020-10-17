@@ -31,6 +31,9 @@ Route::group(['prefix' => 'backoffice', 'middleware' => ['auth']], function() {
     Route::resource('roles', 'RoleController');
     Route::resource('kontrak', 'KontrakController');
     Route::resource('lahan', 'PembebasanLahanController');
+    Route::resource('satker', 'SatkerController');
+    Route::resource('jabatan', 'JabatanController');
+    Route::resource('pekerjaan', 'PekerjaanController');
 
     // user Profile
     Route::get('profile', ['as'=>'profile','uses'=>'UserController@profile']);
