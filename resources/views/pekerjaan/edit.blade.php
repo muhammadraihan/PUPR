@@ -1,6 +1,6 @@
 @extends('layouts.page')
 
-@section('title', 'Satker Edit')
+@section('title', 'Pekerjaan Edit')
 
 @section('css')
 <link rel="stylesheet" media="screen, print" href="{{asset('css/formplugins/select2/select2.bundle.css')}}">
@@ -11,9 +11,9 @@
     <div class="col-xl-6">
         <div id="panel-1" class="panel">
             <div class="panel-hdr">
-            <h2>Edit <span class="fw-300"><i>{{$satker->nama}}</i></span></h2>
+            <h2>Edit <span class="fw-300"><i>{{$pekerjaan->nama}}</i></span></h2>
                 <div class="panel-toolbar">
-                    <a class="nav-link active" href="{{route('satker.index')}}"><i class="fal fa-arrow-alt-left">
+                    <a class="nav-link active" href="{{route('pekerjaan.index')}}"><i class="fal fa-arrow-alt-left">
                         </i>
                         <span class="nav-link-text">Back</span>
                     </a>
@@ -26,29 +26,43 @@
                     <div class="panel-tag">
                         Form with <code>*</code> can not be empty.
                     </div>
-                    {!! Form::open(['route' => ['satker.update',$satker->uuid],'method' => 'PUT','class' =>
+                    {!! Form::open(['route' => ['pekerjaan.update',$pekerjaan->uuid],'method' => 'PUT','class' =>
                     'needs-validation','novalidate']) !!}
                     <div class="form-group col-md-4 mb-3">
-                        {{ Form::label('nama','Nama Lengkap',['class' => 'required form-label'])}}
-                        {{ Form::text('nama',$satker->nama,['placeholder' => 'Nama Lengkap','class' => 'form-control '.($errors->has('nama') ? 'is-invalid':''),'required'])}}
-                        @if ($errors->has('nama'))
-                        <div class="invalid-feedback">{{ $errors->first('nama') }}</div>
+                        {{ Form::label('title','Title',['class' => 'required form-label'])}}
+                        {{ Form::text('title',$pekerjaan->title,['placeholder' => 'Title','class' => 'form-control '.($errors->has('title') ? 'is-invalid':''),'required'])}}
+                        @if ($errors->has('title'))
+                        <div class="invalid-feedback">{{ $errors->first('title') }}</div>
                         @endif
                     </div>
                     <div class="form-group col-md-4 mb-3">
-                        {{ Form::label('wilayah','Wilayah',['class' => 'required form-label'])}}
-                        {{ Form::text('wilayah',$satker->wilayah,['placeholder' => 'Wilayah','class' => 'form-control '.($errors->has('wilayah') ? 'is-invalid':''),'required'])}}
-                        @if ($errors->has('wilayah'))
-                        <div class="invalid-feedback">{{ $errors->first('wilayah') }}</div>
+                        {{ Form::label('jenis_pekerjaan','Jenis pekerjaan',['class' => 'required form-label'])}}
+                        {{ Form::text('jenis_pekerjaan',$pekerjaan->jenis_pekerjaan,['placeholder' => 'Jenis Pekerjaan','class' => 'form-control '.($errors->has('jenis_pekerjaan') ? 'is-invalid':''),'required'])}}
+                        @if ($errors->has('jenis_pekerjaan'))
+                        <div class="invalid-feedback">{{ $errors->first('jenis_pekerjaan') }}</div>
                         @endif
                     </div>
-                    <!-- <div class="form-group col-md-4 mb-3">
-                        {{ Form::label('edited_by','Edited By',['class' => 'required form-label'])}}
-                        {{ Form::text('edited_by',$satker->edited_by,['placeholder' => 'Edited By','class' => 'form-control '.($errors->has('edited_by') ? 'is-invalid':''),'required'])}}
-                        @if ($errors->has('edited_by'))
-                        <div class="invalid-feedback">{{ $errors->first('edited_by') }}</div>
+                    <div class="form-group col-md-4 mb-3">
+                        {{ Form::label('satker_id','ID Satuan Kerja',['class' => 'required form-label'])}}
+                        {{ Form::text('satker_id',$pekerjaan->satker_id,['placeholder' => 'ID Satuan Kerja','class' => 'form-control '.($errors->has('satker_id') ? 'is-invalid':''),'required'])}}
+                        @if ($errors->has('satker_id'))
+                        <div class="invalid-feedback">{{ $errors->first('satker_id') }}</div>
                         @endif
-                    </div> -->
+                    </div>
+                    <div class="form-group col-md-4 mb-3">
+                        {{ Form::label('tahun_mulai','Tahun Mulai',['class' => 'required form-label'])}}
+                        {{ Form::text('tahun_mulai',$pekerjaan->tahun_mulai,['placeholder' => 'Tahun Mulai','class' => 'form-control '.($errors->has('tahun_mulai') ? 'is-invalid':''),'required'])}}
+                        @if ($errors->has('tahun_mulai'))
+                        <div class="invalid-feedback">{{ $errors->first('tahun_mulai') }}</div>
+                        @endif
+                    </div>
+                    <div class="form-group col-md-4 mb-3">
+                        {{ Form::label('tahun_selesai','Tahun Selesai',['class' => 'required form-label'])}}
+                        {{ Form::text('tahun_selesai',$pekerjaan->tahun_selesai,['placeholder' => 'Tahun Selesai','class' => 'form-control '.($errors->has('tahun_selesai') ? 'is-invalid':''),'required'])}}
+                        @if ($errors->has('tahun_selesai'))
+                        <div class="invalid-feedback">{{ $errors->first('tahun_selesai') }}</div>
+                        @endif
+                    </div>
                 <div
                     class="panel-content border-faded border-left-0 border-right-0 border-bottom-0 d-flex flex-row align-items-center">
                     <button class="btn btn-primary ml-auto" type="submit">Submit</button>

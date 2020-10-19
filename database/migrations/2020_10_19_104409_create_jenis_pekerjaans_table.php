@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSatkersTable extends Migration
+class CreateJenisPekerjaansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateSatkersTable extends Migration
      */
     public function up()
     {
-        Schema::create('satkers', function (Blueprint $table) {
+        Schema::create('jenis_pekerjaans', function (Blueprint $table) {
             $table->id();
             $table->string('uuid')->unique();
             $table->string('nama');
-            $table->string('wilayah');
-            $table->string('created_by');
-            $table->string('edited_by');
+            $table->string('created_by')->nullable();
+            $table->string('edited_by')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateSatkersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('satkers');
+        Schema::dropIfExists('jenis_pekerjaans');
     }
 }

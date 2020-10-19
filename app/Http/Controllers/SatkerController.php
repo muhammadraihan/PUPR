@@ -26,11 +26,14 @@ class SatkerController extends Controller
      */
 
     use Authorizable;
-    public function index(Request $request)
+
+    public function index()
     {
-        $satker = Satker::all();
-        if ($request->ajax()) {
-            $data = Satker::latest()->get();
+        if (request()->ajax()) {
+            DB::statement(DB::raw('set @rownum=0'));
+            $data = Satker::select([DB::raw('@rownum  := @rownum  + 1 AS rownum'),
+            'id','uuid','nama','wilayah','created_by','edited_by'])->get();
+
             return Datatables::of($data)
                     ->addIndexColumn()
                     // ->addColumn('action', function ($data) {
@@ -38,17 +41,21 @@ class SatkerController extends Controller
                     //       <a class="btn btn-danger btn-sm btn-icon waves-effect waves-themed" data-url="'.URL::route('ajaxproducts.destroy',$data->id).'" data-id="'.$data->id.'"  data-toggle="modal" data-target="#modal-delete"><i class="fal fa-trash-alt"></i></a>';
                     //   })
                     ->addColumn('action', function($row){
-
-                        return '<a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('satker.edit',$row->id).'" data-id="'.$row->id.'"><i class="fal fa-edit"></i></a>
-                        
-                        <a class="btn btn-danger btn-sm btn-icon waves-effect waves-themed delete-btn" data-url="'.URL::route('satker.destroy',$row->id).'" data-id="'.$row->id.'" data-token="'.csrf_token().'" data-toggle="modal" data-target="#modal-delete"><i class="fal fa-trash-alt"></i></a>';
-                        
+                        // if(auth()->user()->can('edit','delete')){
+                            return '<a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('satker.edit',$row->uuid).'"><i class="fal fa-edit"></i></a>
+                                    <a class="btn btn-danger btn-sm btn-icon waves-effect waves-themed delete-btn" data-url="'.URL::route('satker.destroy',$row->uuid).'" data-id="'.$row->uuid.'" data-token="'.csrf_token().'" data-toggle="modal" data-target="#modal-delete"><i class="fal fa-trash-alt"></i></a>';
+                        // }
+                        // else{
+                        //     return '<a href="#" class="badge badge-secondary">Not Authorize to Perform Action</a>';
+                        // }   
                  })
+                 ->removeColumn('id')
+                 ->removeColumn('uuid')
                  ->rawColumns(['action'])
                  ->make(true);
      }
    
-     return view('satker.index',compact('satker'));
+     return view('satker.index');
     }
 
     /**
@@ -69,8 +76,20 @@ class SatkerController extends Controller
      */
     public function store(Request $request)
     {
-        Satker::updateOrCreate(['id' => $request->id],
-        ['nama' => $request->nama, 'wilayah' => $request->wilayah, 'created_by' => Auth::user()->uuid]);        
+        // Satker::updateOrCreate(['id' => $request->id],
+        // ['nama' => $request->nama, 'wilayah' => $request->wilayah, 'created_by' => Auth::user()->uuid]);
+        // dd(request()->all());
+        $this->validate($request,[
+            'nama' => 'required',
+            'wilayah' => 'required',
+        ]);
+
+        $satker = new Satker();
+        $satker->nama = $request->nama;
+        $satker->wilayah = $request->wilayah;
+        $satker->created_by = Auth::user()->uuid;
+
+        $satker->save();        
 
         
         toastr()->success('New Satker Added','Success');
@@ -114,11 +133,10 @@ class SatkerController extends Controller
         // Validation
       $this->validate($request,[
         'nama' => 'required|min:3',
-        'wilayah' => 'required|min:10',
-        'edited by' => 'required|min:3',
+        'wilayah' => 'required',
       ]);
       // Saving data
-      $satker = Satker::find($id);
+      $satker = Satker::uuid($id);
       $satker->nama = $request->nama;
       $satker->wilayah = $request->wilayah;
       $satker->edited_by = Auth::user()->uuid;
@@ -138,7 +156,7 @@ class SatkerController extends Controller
     public function destroy($id)
     {
         // dd('sdadas');
-        $satker = Satker::find($id)->delete();
+        $satker = Satker::uuid($id)->delete();
      
         // return response()->json(['success'=>'Product deleted successfully.']);
         // return view('productAjax');

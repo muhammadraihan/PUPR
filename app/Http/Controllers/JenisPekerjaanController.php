@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Traits\Authorizable;
 
-use App\Pekerjaan;
+use App\JenisPekerjaan;
 use Carbon\Carbon;
 
 use Auth;
@@ -17,21 +17,21 @@ use Image;
 use Response;
 use URL;
 
-class PekerjaanController extends Controller
+class JenisPekerjaanController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    use Authorizable;
 
+     use Authorizable;
     public function index()
     {
         if (request()->ajax()) {
             DB::statement(DB::raw('set @rownum=0'));
-            $data = Pekerjaan::select([DB::raw('@rownum  := @rownum  + 1 AS rownum'),
-            'id','uuid','title','jenis_pekerjaan','satker_id','tahun_mulai','tahun_selesai','created_by','edited_by'])->get();
+            $data = JenisPekerjaan::select([DB::raw('@rownum  := @rownum  + 1 AS rownum'),
+            'id','uuid','nama','created_by','edited_by'])->get();
 
             return Datatables::of($data)
                     ->addIndexColumn()
@@ -41,8 +41,8 @@ class PekerjaanController extends Controller
                     //   })
                     ->addColumn('action', function($row){
                         // if(auth()->user()->can('edit','delete')){
-                            return '<a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('pekerjaan.edit',$row->uuid).'"><i class="fal fa-edit"></i></a>
-                                    <a class="btn btn-danger btn-sm btn-icon waves-effect waves-themed delete-btn" data-url="'.URL::route('pekerjaan.destroy',$row->uuid).'" data-id="'.$row->uuid.'" data-token="'.csrf_token().'" data-toggle="modal" data-target="#modal-delete"><i class="fal fa-trash-alt"></i></a>';
+                            return '<a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('jenker.edit',$row->uuid).'"><i class="fal fa-edit"></i></a>
+                                    <a class="btn btn-danger btn-sm btn-icon waves-effect waves-themed delete-btn" data-url="'.URL::route('jenker.destroy',$row->uuid).'" data-id="'.$row->uuid.'" data-token="'.csrf_token().'" data-toggle="modal" data-target="#modal-delete"><i class="fal fa-trash-alt"></i></a>';
                         // }
                         // else{
                         //     return '<a href="#" class="badge badge-secondary">Not Authorize to Perform Action</a>';
@@ -52,9 +52,9 @@ class PekerjaanController extends Controller
                  ->removeColumn('uuid')
                  ->rawColumns(['action'])
                  ->make(true);
-     }
-   
-     return view('pekerjaan.index');
+        }
+
+        return view('jenker.index');
     }
 
     /**
@@ -64,7 +64,7 @@ class PekerjaanController extends Controller
      */
     public function create()
     {
-        return view('pekerjaan.create');
+        return view('jenker.create');
     }
 
     /**
@@ -76,26 +76,18 @@ class PekerjaanController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'title' => 'required',
-            'jenis_pekerjaan' => 'required',
-            'satker_id' => 'required',
-            'tahun_mulai' => 'required',
-            'tahun_selesai' => 'required',
+            'nama' => 'required',
         ]);
 
-        $pekerjaan = new Pekerjaan();
-        $pekerjaan->title = $request->title;
-        $pekerjaan->jenis_pekerjaan = $request->jenis_pekerjaan;
-        $pekerjaan->satker_id = $request->satker_id;
-        $pekerjaan->tahun_mulai = $request->tahun_mulai;
-        $pekerjaan->tahun_selesai = $request->tahun_selesai;
-        $pekerjaan->created_by = Auth::user()->uuid;
+        $jenker = new JenisPekerjaan();
+        $jenker->nama = $request->nama;
+        $jenker->created_by = Auth::user()->uuid;
 
-        $pekerjaan->save();        
+        $jenker->save();        
 
         
-        toastr()->success('New pekerjaan Added','Success');
-        return redirect()->route('pekerjaan.index');
+        toastr()->success('New Jenis Pekerjaan Added','Success');
+        return redirect()->route('jenker.index');
     }
 
     /**
@@ -117,9 +109,9 @@ class PekerjaanController extends Controller
      */
     public function edit($id)
     {
-        $pekerjaan = Pekerjaan::uuid($id);
+        $jenker = JenisPekerjaan::uuid($id);
       // dd($user->roles[0]['name']);
-      return view('pekerjaan.edit', compact('pekerjaan'));
+      return view('jenker.edit', compact('jenker'));
     }
 
     /**
@@ -132,25 +124,17 @@ class PekerjaanController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'title' => 'required',
-            'jenis_pekerjaan' => 'required',
-            'satker_id' => 'required',
-            'tahun_mulai' => 'required',
-            'tahun_selesai' => 'required',
+            'nama' => 'required|min:3',
           ]);
           // Saving data
-          $pekerjaan = Pekerjaan::uuid($id);
-          $pekerjaan->title = $request->title;
-          $pekerjaan->jenis_pekerjaan = $request->jenis_pekerjaan;
-          $pekerjaan->satker_id = $request->satker_id;
-          $pekerjaan->tahun_mulai = $request->tahun_mulai;
-          $pekerjaan->tahun_selesai = $request->tahun_selesai;
-          $pekerjaan->edited_by = Auth::user()->uuid;
+          $jenker = JenisPekerjaan::uuid($id);
+          $jenker->nama = $request->nama;
+          $jenker->edited_by = Auth::user()->uuid;
     
-          $satker->save();
+          $jenker->save();
     
-          toastr()->success('Pekerjaan Edited','Success');
-          return redirect()->route('pekerjaan.index');
+          toastr()->success('jenis pekerjaan Edited','Success');
+          return redirect()->route('jenker.index');
     }
 
     /**
@@ -161,8 +145,7 @@ class PekerjaanController extends Controller
      */
     public function destroy($id)
     {
-        $pekerjaan = Pekerjaan::uuid($id)->delete();
-    
-         return redirect()->route('pekerjaan.index');
+        $jenker = JenisPekerjaan::uuid($id)->delete();
+         return redirect()->route('jenker.index');
     }
 }

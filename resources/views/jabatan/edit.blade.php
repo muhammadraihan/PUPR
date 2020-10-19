@@ -1,6 +1,6 @@
 @extends('layouts.page')
 
-@section('title', 'Satker Create')
+@section('title', 'Jabatan Edit')
 
 @section('css')
 <link rel="stylesheet" media="screen, print" href="{{asset('css/formplugins/select2/select2.bundle.css')}}">
@@ -11,9 +11,9 @@
     <div class="col-xl-6">
         <div id="panel-1" class="panel">
             <div class="panel-hdr">
-                <h2>Add New <span class="fw-300"><i>Satker</i></span></h2>
+            <h2>Edit <span class="fw-300"><i>{{$jabatan->nama}}</i></span></h2>
                 <div class="panel-toolbar">
-                    <a class="nav-link active" href="{{route('satker.index')}}"><i class="fal fa-arrow-alt-left">
+                    <a class="nav-link active" href="{{route('jabatan.index')}}"><i class="fal fa-arrow-alt-left">
                         </i>
                         <span class="nav-link-text">Back</span>
                     </a>
@@ -26,20 +26,13 @@
                     <div class="panel-tag">
                         Form with <code>*</code> can not be empty.
                     </div>
-                    {!! Form::open(['route' => 'satker.store','method' => 'POST','class' =>
+                    {!! Form::open(['route' => ['jabatan.update',$jabatan->uuid],'method' => 'PUT','class' =>
                     'needs-validation','novalidate']) !!}
                     <div class="form-group col-md-4 mb-3">
                         {{ Form::label('nama','Nama Lengkap',['class' => 'required form-label'])}}
-                        {{ Form::text('nama',null,['placeholder' => 'Nama Lengkap','class' => 'form-control '.($errors->has('nama') ? 'is-invalid':''),'required'])}}
+                        {{ Form::text('nama',$jabatan->nama,['placeholder' => 'Nama Lengkap','class' => 'form-control '.($errors->has('nama') ? 'is-invalid':''),'required'])}}
                         @if ($errors->has('nama'))
                         <div class="invalid-feedback">{{ $errors->first('nama') }}</div>
-                        @endif
-                    </div>
-                    <div class="form-group col-md-4 mb-3">
-                        {{ Form::label('wilayah','Wilayah',['class' => 'required form-label'])}}
-                        {{ Form::text('wilayah',null,['placeholder' => 'Wilayah','class' => 'form-control '.($errors->has('wilayah') ? 'is-invalid':''),'required'])}}
-                        @if ($errors->has('wilayah'))
-                        <div class="invalid-feedback">{{ $errors->first('wilayah') }}</div>
                         @endif
                     </div>
                 <div
@@ -75,6 +68,17 @@
         $(".getNewPass").click(function(){
             var field = $('#password').closest('div').find('input[name="password"]');
             field.val(randString(field));
+        });
+
+        //Enable input and button change password
+        $('#enablePassChange').click(function() {
+            if ($(this).is(':checked')) {
+                $('#passwordForm').attr('disabled',false); //enable input
+                $('#getNewPass').attr('disabled',false); //enable button
+            } else {
+                    $('#passwordForm').attr('disabled', true); //disable input
+                    $('#getNewPass').attr('disabled', true); //disable button
+            }
         });
     });
 </script>
