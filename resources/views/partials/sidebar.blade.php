@@ -43,6 +43,41 @@
                     <span class="nav-link-text">Dashboard</span>
                 </a>
             </li>
+            <li>
+                        <a href="{{route('satker.index')}}" title="Satker Managements"
+                            data-filter-tags="satker managements">
+                            <span class="nav-link-text" data-i18n="nav.roles_managements">Satker
+                                Management</span>
+                        </a>
+            </li>
+            <li>
+                        <a href="{{route('jabatan.index')}}" title="Jabatan Managements"
+                            data-filter-tags="jabatan managements">
+                            <span class="nav-link-text" data-i18n="nav.roles_managements">Jabatan
+                                Management</span>
+                        </a>
+            </li>
+            <li>
+                        <a href="{{route('pekerjaan.index')}}" title="Pekerjaan Managements"
+                            data-filter-tags="pekerjaan managements">
+                            <span class="nav-link-text" data-i18n="nav.roles_managements">Pekerjaan
+                                Management</span>
+                        </a>
+            </li>
+            <li>
+                        <a href="{{route('kontrak.index')}}" title="Kontrak Managements"
+                            data-filter-tags="kontrak managements">
+                            <span class="nav-link-text" data-i18n="nav.roles_managements">Kontrak
+                                Management</span>
+                        </a>
+            </li>
+            <li>
+                        <a href="{{route('jenker.index')}}" title="Jenis Pekerjaan Managements"
+                            data-filter-tags="jenis pekerjaan managements">
+                            <span class="nav-link-text" data-i18n="nav.roles_managements">Jenis Pekerjaan
+                                Management</span>
+                        </a>
+            </li>
             @hasanyrole('superadmin')
             <li class="nav-title">ACL & Settings</li>
             <li class="">
