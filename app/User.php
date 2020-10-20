@@ -100,4 +100,14 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function jabatan()
+    {
+        return $this->belongsTo(Jabatan::class, 'jabatan_id', 'id');
+    }
+
+    public function satker()
+    {
+        return $this->belongsTo(Satker::class, 'satker_id', 'id');
+    }
 }
