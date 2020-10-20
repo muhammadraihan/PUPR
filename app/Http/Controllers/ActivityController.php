@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Traits\Authorizable;
-
 use App\Activity;
 use App\User;
 use Carbon\Carbon;
@@ -33,7 +32,6 @@ class ActivityController extends Controller
           DB::statement(DB::raw('set @rownum=0'));
           $logs = Activity::select([DB::raw('@rownum  := @rownum  + 1 AS rownum'),
           'id','log_name','causer_id','description','created_at'])->get();
-  
           return DataTables::of($logs)
           ->editColumn('created_at', function($log){
             if(!empty($log->created_at)){
@@ -41,7 +39,10 @@ class ActivityController extends Controller
             }
           })
           ->editColumn('causer_id', function($log){
-            return $log->getUser->name;
+            if (!empty($log->causer_id)) {
+              return $log->getUser->name;
+            }
+            return "Seeder";
           })
           ->removeColumn('id')
           ->make();
