@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-alpha.2](https://git.fiotech.co/wbaindonesia/project-reporting/compare/v1.1.0-alpha.1...v1.1.0-alpha.2) (2020-10-20)
+
+
+### Features
+
+* Adding jabatan table seeder ([9026193](https://git.fiotech.co/wbaindonesia/project-reporting/commit/902619315d1e68bd6a799ef4a44d7ec09f71abf4))
+* Adding jabatan_urutan column in users table ([0eef687](https://git.fiotech.co/wbaindonesia/project-reporting/commit/0eef6870bc506e56d2428f83514ae4b9dd1b6e4b))
+* Adding jenis pekerjaan table seeder ([fcf4a5c](https://git.fiotech.co/wbaindonesia/project-reporting/commit/fcf4a5c81bf4b89204d2936bb2c37d852b248c78))
+* Adding pengguna controller module ([2e42e30](https://git.fiotech.co/wbaindonesia/project-reporting/commit/2e42e308ab16235a8acf03dba5065e408a1f9416))
+* Adding pengguna route ([65db99a](https://git.fiotech.co/wbaindonesia/project-reporting/commit/65db99adefe482fb793733acfa188ea1c3ffacdd))
+* Adding relation to satker and jabatan ([7bc8c2b](https://git.fiotech.co/wbaindonesia/project-reporting/commit/7bc8c2b2248d4507fc98ee82c4b907a97566a2cb))
+* Adding satker table seeder ([c4a7a9f](https://git.fiotech.co/wbaindonesia/project-reporting/commit/c4a7a9fc4bcacc531387751992e839de1d34c920))
+* Adding views modul pengguna ([719046e](https://git.fiotech.co/wbaindonesia/project-reporting/commit/719046e045af251343d0979044e3c54f6b4c9ef1))
+
+
+### Bug Fixes
+
+* Change wilayah option to dropdown ([d45467c](https://git.fiotech.co/wbaindonesia/project-reporting/commit/d45467c1cf8b3b106e12bf6332258fc4584ff75f))
+* Menu layout in sidebar ([cefb5be](https://git.fiotech.co/wbaindonesia/project-reporting/commit/cefb5be058face743cbb60342a54d9060af35274))
+
 ## [1.1.0-alpha.1](https://git.fiotech.co/wbaindonesia/project-reporting/compare/v1.1.0-alpha.0...v1.1.0-alpha.1) (2020-10-20)
 
 
