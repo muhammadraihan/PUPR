@@ -74,6 +74,8 @@ class Permission extends \Spatie\Permission\Models\Permission
             'add_permissions',
             'edit_permissions',
             'delete_permissions',
+
+            'view_logs',
         ];
     }
 }
