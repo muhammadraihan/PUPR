@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-alpha.1](https://git.fiotech.co/wbaindonesia/project-reporting/compare/v1.1.0-alpha.0...v1.1.0-alpha.1) (2020-10-20)
+
+
+### Features
+
+* Add view log permission ([2b5ed50](https://git.fiotech.co/wbaindonesia/project-reporting/commit/2b5ed50e8ef6744ee5979a99565ee34b86e9c461))
+
+
+### Bug Fixes
+
+* Insert causer log as seeder when run db:seed ([7a257ee](https://git.fiotech.co/wbaindonesia/project-reporting/commit/7a257eeea7218697bc5aadab2294482805500448))
+
 ## 1.1.0-alpha.0 (2020-10-13)
 
 
