@@ -35,18 +35,14 @@ class PekerjaanController extends Controller
 
             return Datatables::of($data)
                     ->addIndexColumn()
-                    // ->addColumn('action', function ($data) {
-                    //       return '<a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('ajaxproducts.edit',$data->id).'"><i class="fal fa-edit"></i></a>
-                    //       <a class="btn btn-danger btn-sm btn-icon waves-effect waves-themed" data-url="'.URL::route('ajaxproducts.destroy',$data->id).'" data-id="'.$data->id.'"  data-toggle="modal" data-target="#modal-delete"><i class="fal fa-trash-alt"></i></a>';
-                    //   })
                     ->addColumn('action', function($row){
-                        // if(auth()->user()->can('edit','delete')){
+                        if(auth()->user()->can('edit','delete')){
                             return '<a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('pekerjaan.edit',$row->uuid).'"><i class="fal fa-edit"></i></a>
                                     <a class="btn btn-danger btn-sm btn-icon waves-effect waves-themed delete-btn" data-url="'.URL::route('pekerjaan.destroy',$row->uuid).'" data-id="'.$row->uuid.'" data-token="'.csrf_token().'" data-toggle="modal" data-target="#modal-delete"><i class="fal fa-trash-alt"></i></a>';
-                        // }
-                        // else{
-                        //     return '<a href="#" class="badge badge-secondary">Not Authorize to Perform Action</a>';
-                        // }   
+                        }
+                        else{
+                            return '<a href="#" class="badge badge-secondary">Not Authorize to Perform Action</a>';
+                        }   
                  })
                  ->removeColumn('id')
                  ->removeColumn('uuid')
@@ -118,8 +114,8 @@ class PekerjaanController extends Controller
     public function edit($id)
     {
         $pekerjaan = Pekerjaan::uuid($id);
-      // dd($user->roles[0]['name']);
-      return view('pekerjaan.edit', compact('pekerjaan'));
+      
+        return view('pekerjaan.edit', compact('pekerjaan'));
     }
 
     /**
@@ -162,7 +158,8 @@ class PekerjaanController extends Controller
     public function destroy($id)
     {
         $pekerjaan = Pekerjaan::uuid($id)->delete();
-    
-         return redirect()->route('pekerjaan.index');
+        $pekerjaan->delete();
+        toastr()->success('Pekerjaan Deleted','Success');
+        return redirect()->route('pekerjaan.index');
     }
 }
