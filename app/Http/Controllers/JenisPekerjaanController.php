@@ -35,18 +35,14 @@ class JenisPekerjaanController extends Controller
 
             return Datatables::of($data)
                     ->addIndexColumn()
-                    // ->addColumn('action', function ($data) {
-                    //       return '<a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('ajaxproducts.edit',$data->id).'"><i class="fal fa-edit"></i></a>
-                    //       <a class="btn btn-danger btn-sm btn-icon waves-effect waves-themed" data-url="'.URL::route('ajaxproducts.destroy',$data->id).'" data-id="'.$data->id.'"  data-toggle="modal" data-target="#modal-delete"><i class="fal fa-trash-alt"></i></a>';
-                    //   })
                     ->addColumn('action', function($row){
-                        // if(auth()->user()->can('edit','delete')){
-                            return '<a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('jenker.edit',$row->uuid).'"><i class="fal fa-edit"></i></a>
-                                    <a class="btn btn-danger btn-sm btn-icon waves-effect waves-themed delete-btn" data-url="'.URL::route('jenker.destroy',$row->uuid).'" data-id="'.$row->uuid.'" data-token="'.csrf_token().'" data-toggle="modal" data-target="#modal-delete"><i class="fal fa-trash-alt"></i></a>';
-                        // }
-                        // else{
-                        //     return '<a href="#" class="badge badge-secondary">Not Authorize to Perform Action</a>';
-                        // }   
+                    if(auth()->user()->can('edit','delete')){
+                        return '<a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('jenker.edit',$row->uuid).'"><i class="fal fa-edit"></i></a>
+                                <a class="btn btn-danger btn-sm btn-icon waves-effect waves-themed delete-btn" data-url="'.URL::route('jenker.destroy',$row->uuid).'" data-id="'.$row->uuid.'" data-token="'.csrf_token().'" data-toggle="modal" data-target="#modal-delete"><i class="fal fa-trash-alt"></i></a>';
+                    }
+                    else{
+                        return '<a href="#" class="badge badge-secondary">Not Authorize to Perform Action</a>';
+                    }   
                  })
                  ->removeColumn('id')
                  ->removeColumn('uuid')
@@ -110,7 +106,6 @@ class JenisPekerjaanController extends Controller
     public function edit($id)
     {
         $jenker = JenisPekerjaan::uuid($id);
-      // dd($user->roles[0]['name']);
       return view('jenker.edit', compact('jenker'));
     }
 
@@ -145,7 +140,9 @@ class JenisPekerjaanController extends Controller
      */
     public function destroy($id)
     {
-        $jenker = JenisPekerjaan::uuid($id)->delete();
-         return redirect()->route('jenker.index');
+        $jenker = JenisPekerjaan::uuid($id);
+        $jenker->delete();
+        toastr()->success('jenis pekerjaan Deleted','Success');
+        return redirect()->route('jenker.index');
     }
 }
