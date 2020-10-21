@@ -21,6 +21,7 @@ class CreateDataKontraksTable extends Migration
             $table->string('nilai_kontrak');
             $table->string('panjang_jalan')->nullable();
             $table->string('panjang_jembatan')->nullable();
+            // $table->string('lokasi');
             $table->string('tahun_anggaran');
             $table->date('tanggal_kontrak_awal');
             $table->date('tanggal_adendum_kontrak');

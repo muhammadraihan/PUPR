@@ -12,7 +12,7 @@
     <div class="col-xl-6">
         <div id="panel-1" class="panel">
             <div class="panel-hdr">
-                <h2>Add New <span class="fw-300"><i>Kontrak</i></span></h2>
+                <h2>Edit <span class="fw-300"><i>Kontrak</i></span></h2>
                 <div class="panel-toolbar">
                     <a class="nav-link active" href="{{route('kontrak.index')}}"><i class="fal fa-arrow-alt-left">
                         </i>

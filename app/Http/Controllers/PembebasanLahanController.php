@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Traits\Authorizable;
 
-use App\pembebasanLahan;
+use App\PembebasanLahan;
 use Carbon\Carbon;
 
 use Auth;
@@ -30,13 +31,15 @@ class PembebasanLahanController extends Controller
     {
         if (request()->ajax()) {
             DB::statement(DB::raw('set @rownum=0'));
-            $lahan = pembebasanLahan::select([DB::raw('@rownum  := @rownum  + 1 AS rownum'),
-            'pekerjaan_id','kebutuhan','sudah_bebas','belum_bebas','dokumentasi_id','permasalahan','tindak_lanjut','created_by','edited_by'])->get();
+            $lahan = PembebasanLahan::select([DB::raw('@rownum  := @rownum  + 1 AS rownum'),
+            'id','uuid','pekerjaan_id','kebutuhan','sudah_bebas','belum_bebas','dokumentasi_id','permasalahan','tindak_lanjut','created_by','edited_by'])->get();
     
             return DataTables::of($lahan)
             ->addColumn('action', function ($lahans) {
-              if(auth()->user()->can('edit_kontrak','delete_kontrak')){
-                return '<a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('lahan.edit',$lahans->uuid).'"><i class="fal fa-edit"></i></a>
+              if(auth()->user()->can('edit_lahan','delete_lahan')){
+                return '
+                <a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('lahan.edit',$lahans->uuid).'"><i class="fal fa-edit"></i></a>
+                <a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('lahan.show',$lahans->uuid).'"><i class="fal fa-eye"></i></a>
                 <a class="btn btn-danger btn-sm btn-icon waves-effect waves-themed delete-btn" data-url="'.URL::route('lahan.destroy',$lahans->uuid).'" data-id="'.$lahans->uuid.'" data-token="'.csrf_token().'" data-toggle="modal" data-target="#modal-delete"><i class="fal fa-trash-alt"></i></a>';
               }
               else{
@@ -89,33 +92,19 @@ class PembebasanLahanController extends Controller
                 $filename = md5(uniqid(mt_rand(),true)).'.'.$file->getClientOriginalExtension();
                 $path = Storage::putFileAs('public/pembebasanLahan/',$file,$filename);
             }
-            $document = new pembebasanLahan();
-            $document->nama = $request->nama;
-            $document->no_document = $request->no_document;
-            $document->jenis_dokumen_id = $request->jenis_dokumen_id;
-            $document->edisi = $request->edisi;
-            $document->revisi = $request->revisi;
-            $document->efektif = Carbon::parse($request->efektif)->format('Y-m-d');
-            $document->jumlah_halaman = $request->jumlah_halaman;
-            $document->dokument = $filename;
-            $document->siklus_id = $siklus->uuid;
-            $document->gjm_id = $request->unit;
-            $document->gkm_id = null;
-            $document->role_id = $role->id;
-            $document->created_by = Auth::user()->uuid;
-            $document->save();
+            $lahan = new PembebasanLahan();
+            $lahan->pekerjaan_id = $request->pekerjaan_id;
+            $lahan->kebutuhan = $request->kebutuhan;
+            $lahan->sudah_bebas = $request->sudah_bebas;
+            $lahan->belum_bebas = $request->belum_bebas;
+            $lahan->permasalahan = $request->permasalahan;
+            $lahan->tindak_lanjut = $request->tindak_lanjut;
+            $lahan->dokumentasi_id = $filename;
+            $lahan->created_by = Auth::user()->uuid;
+            $lahan->save();
 
-            // $gugus = new GugusTugas();
-            // $gugus->user_id = Auth::user()->id;
-            // $gugus->siklus_id = $siklus->id;
-            // $gugus->gjm_id = isset(Auth::user()->gkm_id[0]) ? Auth::user()->gkm_id[0] : '0';
-            // $gugus->gkm_id = isset(Auth::user()->gkm_id[0]) ? Auth::user()->gkm_id[0] : '0';
-            // $gugus->is_upload = 1;
-            // $gugus->is_skoring = 0;
-            // $gugus->save();
-
-            toastr()->success('New Document Added', 'Success');
-            return redirect()->route('documents.index');
+            toastr()->success('New Pembebasan Lahan Added', 'Success');
+            return redirect()->route('lahan.index');
     }
 
     /**
@@ -137,7 +126,8 @@ class PembebasanLahanController extends Controller
      */
     public function edit($id)
     {
-        //
+        $lahan = PembebasanLahan::uuid($id);
+        return view('lahan.edit',compact('lahan'));
     }
 
     /**
@@ -149,7 +139,42 @@ class PembebasanLahanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // dd($request->all());
+        $this->validate($request, [
+            'pekerjaan_id' => 'required',
+            'kebutuhan' => 'required',
+            'sudah_bebas' => 'required',
+            'belum_bebas' => 'required',
+            'permasalahan' => 'required',
+            'tindak_lanjut' => 'required',
+            'dokumentasi_id' => 'mimes:pdf,xlx,csv|max:2048',
+        ]);
+
+        $messages = [
+            '*.required' => 'Data Harus Di isi',
+            '*.mimes' => 'Type File Harus pdf',
+        ];
+
+        if($request->hasfile('file')){
+            $file = $request->file('file');
+            $filename = md5(uniqid(mt_rand(),true)).'.'.$file->getClientOriginalExtension();
+            $path = Storage::putFileAs('public/pembebasanLahan/',$file,$filename);
+        }
+
+        $lahan = PembebasanLahan::uuid($id);
+        $lahan->pekerjaan_id = $request->pekerjaan_id;
+        $lahan->kebutuhan = $request->kebutuhan;
+        $lahan->sudah_bebas = $request->sudah_bebas;
+        $lahan->belum_bebas = $request->belum_bebas;
+        $lahan->permasalahan = $request->permasalahan;
+        $lahan->tindak_lanjut = $request->tindak_lanjut;
+        $lahan->dokumentasi_id = isset($filename) ? $filename : $lahan->dokumentasi_id;
+        $lahan->edited_by = Auth::user()->uuid;
+        $lahan->save();
+
+        toastr()->success('Pembebasan Lahan Edited', 'Success');
+        return redirect()->route('lahan.index');
+
     }
 
     /**
@@ -160,6 +185,10 @@ class PembebasanLahanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $lahan = PembebasanLahan::uuid($id);
+        $lahan->delete();
+
+        toastr()->success('Lahan Deleted','Success');
+        return redirect()->route('lahan.index');
     }
 }
