@@ -17,6 +17,7 @@ class CreateDokumentasiPelaksanaansTable extends Migration
             $table->id();
             $table->string('uuid')->unique();
             $table->bigInteger('pekerjaan_id')->nullable();
+            $table->bigInteger('fisik_id')->nullable();
             $table->string('status')->nullable()->comment('Status Dokumentasi = early|before|current');
             $table->string('filename')->nullable();
             $table->timestamps();
