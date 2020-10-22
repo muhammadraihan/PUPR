@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-alpha.3](https://git.fiotech.co/wbaindonesia/project-reporting/compare/v1.1.0-alpha.2...v1.1.0-alpha.3) (2020-10-22)
+
+
+### Features
+
+* Add model pelaksanaan fisik ([9d9d642](https://git.fiotech.co/wbaindonesia/project-reporting/commit/9d9d642cd882ac0f50f9cf113262b1df4d0d34e4))
+* Add module permission array ([c6b7886](https://git.fiotech.co/wbaindonesia/project-reporting/commit/c6b7886ae33c17a4d80d2c390f95e9343bee24e3))
+* Add module permission seeder ([881639c](https://git.fiotech.co/wbaindonesia/project-reporting/commit/881639c4885e1769d702acf0cf3b6a67c1f26f15))
+* Add views for pelaksanaan fisik ([a8bac35](https://git.fiotech.co/wbaindonesia/project-reporting/commit/a8bac35505e6dcaf7798a034c91aebbb1bfb1d01))
+* Adding logic fot pelaksanaan fisik ([d6dea0f](https://git.fiotech.co/wbaindonesia/project-reporting/commit/d6dea0f7e22b31c6846c2f4fad5c83d0e9cf0513))
+* Adding menu pelaksanaan pekerjaan fisik ([8b80147](https://git.fiotech.co/wbaindonesia/project-reporting/commit/8b80147faa841afedd175845a99109533ef84a02))
+
+
+### Bug Fixes
+
+* Change tahun datatype to year ([a02c6a8](https://git.fiotech.co/wbaindonesia/project-reporting/commit/a02c6a8a9fd6e97a4a6eb356ad389922e3ad5084))
+* Now have validation before store ([d62c94f](https://git.fiotech.co/wbaindonesia/project-reporting/commit/d62c94f8d5ec00dc7d3cbcb6c954d48499351fc7))
+
 ## [1.1.0-alpha.2](https://git.fiotech.co/wbaindonesia/project-reporting/compare/v1.1.0-alpha.1...v1.1.0-alpha.2) (2020-10-20)
 
 
