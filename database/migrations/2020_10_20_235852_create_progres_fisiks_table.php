@@ -16,11 +16,16 @@ class CreateProgresFisiksTable extends Migration
         Schema::create('progres_fisiks', function (Blueprint $table) {
             $table->id();
             $table->string('uuid')->unique();
-            $table->decimal('rencana',3,1)->nullable();
-            $table->decimal('realisasi',3,1)->nullable();
-            $table->decimal('devisiasi',3,1)->nullable();
+            $table->bigInteger('pekerjaan_id')->nullable();
+            $table->bigInteger('nomor_pelaksanaan')->nullable();
+            $table->date('tanggal_pelaksanaan')->nullable();
+            $table->float('rencana',8,2)->nullable();
+            $table->float('realisasi',8,2)->nullable();
+            $table->float('deviasi',8,2)->nullable();
             $table->text('permasalahan')->nullable();
             $table->text('tindakan')->nullable();
+            $table->string('created_by')->nullable();
+            $table->string('edited_by')->nullable();
             $table->timestamps();
         });
     }
