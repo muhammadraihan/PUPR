@@ -109,15 +109,23 @@ class PenggunaController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'name' => 'required|min:2',
+        //validation
+        $rules = [
+            'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
             'role' => 'required',
             'satker' => 'required',
             'jabatan' => 'required',
-        ]);
-        
+        ];
+        $messages = [
+            '*.required' => 'Tidak boleh kosong',
+            '*.email' => 'Isian harus format email',
+            '*.unique' => 'Email telah digunakan, harap gunakan alamat email lain',
+            '*.min' => 'Minimal 8 karakter',
+        ];
+        $this->validate($request, $rules, $messages);
+
         // get last urutan jabatan ppk
         $lastValue = DB::table('users')->select('jabatan_urutan')
                     ->where('satker_id', '=', $request->satker)
@@ -187,14 +195,22 @@ class PenggunaController extends Controller
      */
     public function update(Request $request, $uuid)
     {
-        // Validation
-        $this->validate($request,[
-            'name' => 'required|min:2',
+        //validation
+        $rules = [
+            'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$uuid.',uuid',
+            'password' => 'required|min:8',
             'role' => 'required',
             'satker' => 'required',
             'jabatan' => 'required',
-        ]);
+        ];
+        $messages = [
+            '*.required' => 'Tidak boleh kosong',
+            '*.email' => 'Isian harus format email',
+            '*.unique' => 'Email telah digunakan, harap gunakan alamat email lain',
+            '*.min' => 'Minimal 8 karakter',
+        ];
+        $this->validate($request, $rules, $messages);
 
         // Saving data
         $user = User::uuid($uuid);
