@@ -17,6 +17,7 @@ class CreateDokumentasiSosialisasisTable extends Migration
             $table->id();
             $table->string('uuid')->unique();
             $table->bigInteger('pekerjaan_id')->nullable();
+            $table->bigInteger('sosialisasi_id')->nullable();
             $table->string('filename')->nullable();
             $table->timestamps();
         });
