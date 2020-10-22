@@ -16,11 +16,11 @@ class CreatePekerjaansTable extends Migration
         Schema::create('pekerjaans', function (Blueprint $table) {
             $table->id();
             $table->string('uuid')->unique();
-            $table->string('title');
-            $table->string('jenis_pekerjaan');
-            $table->string('satker_id');
-            $table->date('tahun_mulai');
-            $table->date('tahun_selesai');
+            $table->string('title')->nullable();
+            $table->string('jenis_pekerjaan')->nullable();
+            $table->string('satker_id')->nullable();
+            $table->year('tahun_mulai')->nullable();
+            $table->year('tahun_selesai')->nullable();
             $table->string('created_by')->nullable();
             $table->string('edited_by')->nullable();
             $table->timestamps();
