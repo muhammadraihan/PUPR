@@ -91,13 +91,33 @@
             <li>
                 <a href="#" title="Theme Settings" data-filter-tags="theme settings">
                     <i class="fal fa-chart-bar"></i>
-                    <span class="nav-link-text" data-i18n="nav.theme_settings">Progress Pekerjaan</span>
+                    <span class="nav-link-text" data-i18n="nav.theme_settings">Pelaksanaan Pekerjaan</span>
                 </a>
+                <ul>
+                    <li>
+                        <a href="{{route('fisik.index')}}" title="Fisik Managements"
+                            data-filter-tags="fisik managements">
+                            <span class="nav-link-text" data-i18n="nav.roles_managements">Fisik</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" title="Keuangan Managements"
+                            data-filter-tags="keuangan managements">
+                            <span class="nav-link-text" data-i18n="nav.roles_managements">Keuangan</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li>
                 <a href="#" title="Theme Settings" data-filter-tags="theme settings">
                     <i class="fal fa-print"></i>
                     <span class="nav-link-text" data-i18n="nav.theme_settings">Laporan</span>
+                </a>
+            </li>
+            <li>
+            <a href="{{route('pengguna.index')}}" title="Theme Settings" data-filter-tags="theme settings">
+                    <i class="fal fa-users"></i>
+                    <span class="nav-link-text" data-i18n="nav.theme_settings">Pengguna</span>
                 </a>
             </li>
             @hasanyrole('superadmin')
