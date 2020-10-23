@@ -36,7 +36,7 @@ Route::group(['prefix' => 'backoffice', 'middleware' => ['auth']], function() {
     Route::resource('pekerjaan', 'PekerjaanController');
     Route::resource('jenker', 'JenisPekerjaanController');
     Route::resource('pengguna', 'PenggunaController');
-    Route::resource('fisik', 'ProgresFisikController');
+    Route::resource('pelaksanaan', 'PelaksanaanController');
 
     // user Profile
     Route::get('profile', ['as'=>'profile','uses'=>'UserController@profile']);
@@ -44,6 +44,6 @@ Route::group(['prefix' => 'backoffice', 'middleware' => ['auth']], function() {
     Route::patch('profile/{user}/password',['as' => 'profile.password','uses' => 'UserController@ChangePassword']);
 
     // upload dokumentasi pelaksanaan
-    Route::get('fisik/{uuid}/dokumentasi',['as' => 'upload.form','uses'=> 'ProgresFisikController@getUpload']);
-    Route::post('upload-dokumentasi',['as' => 'post.image','uses'=> 'ProgresFisikController@uploadImages']);
+    Route::get('pelaksanaan/{uuid}/dokumentasi',['as' => 'pelaksanaan.dokumentasi','uses'=> 'PelaksanaanController@getUpload']);
+    Route::post('pelaksanaan/dokumentasi/upload',['as' => 'pelaksanaan.upload','uses'=> 'PelaksanaanController@uploadImages']);
 });
