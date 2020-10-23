@@ -36,23 +36,19 @@ class SatkerController extends Controller
 
             return Datatables::of($data)
                     ->addIndexColumn()
-                    // ->addColumn('action', function ($data) {
-                    //       return '<a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('ajaxproducts.edit',$data->id).'"><i class="fal fa-edit"></i></a>
-                    //       <a class="btn btn-danger btn-sm btn-icon waves-effect waves-themed" data-url="'.URL::route('ajaxproducts.destroy',$data->id).'" data-id="'.$data->id.'"  data-toggle="modal" data-target="#modal-delete"><i class="fal fa-trash-alt"></i></a>';
-                    //   })
                     ->addColumn('action', function($row){
-                        // if(auth()->user()->can('edit','delete')){
-                            return '<a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('satker.edit',$row->uuid).'"><i class="fal fa-edit"></i></a>
-                                    <a class="btn btn-danger btn-sm btn-icon waves-effect waves-themed delete-btn" data-url="'.URL::route('satker.destroy',$row->uuid).'" data-id="'.$row->uuid.'" data-token="'.csrf_token().'" data-toggle="modal" data-target="#modal-delete"><i class="fal fa-trash-alt"></i></a>';
-                        // }
-                        // else{
-                        //     return '<a href="#" class="badge badge-secondary">Not Authorize to Perform Action</a>';
-                        // }   
+                    if(auth()->user()->can('edit','delete')){
+                        return '
+                        <a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('satker.edit',$row->uuid).'"><i class="fal fa-edit"></i></a>
+                        <a class="btn btn-danger btn-sm btn-icon waves-effect waves-themed delete-btn" data-url="'.URL::route('satker.destroy',$row->uuid).'" data-id="'.$row->uuid.'" data-token="'.csrf_token().'" data-toggle="modal" data-target="#modal-delete"><i class="fal fa-trash-alt"></i></a>';
+                    }else{
+                        return '<a href="#" class="badge badge-secondary">Not Authorize to Perform Action</a>';
+                    }
                  })
-                 ->removeColumn('id')
-                 ->removeColumn('uuid')
-                 ->rawColumns(['action'])
-                 ->make(true);
+            ->removeColumn('id')
+            ->removeColumn('uuid')
+            ->rawColumns(['action'])
+            ->make(true);
      }
    
      return view('satker.index');
@@ -76,9 +72,6 @@ class SatkerController extends Controller
      */
     public function store(Request $request)
     {
-        // Satker::updateOrCreate(['id' => $request->id],
-        // ['nama' => $request->nama, 'wilayah' => $request->wilayah, 'created_by' => Auth::user()->uuid]);
-        // dd(request()->all());
         $this->validate($request,[
             'nama' => 'required',
             'wilayah' => 'required',
@@ -116,7 +109,6 @@ class SatkerController extends Controller
     public function edit($id)
     {
       $satker = Satker::find($id);
-      // dd($user->roles[0]['name']);
       return view('satker.edit', compact('satker'));
     }
 
@@ -132,7 +124,7 @@ class SatkerController extends Controller
         // dd(request()->all());
         // Validation
       $this->validate($request,[
-        'nama' => 'required|min:3',
+        'nama' => 'required',
         'wilayah' => 'required',
       ]);
       // Saving data
@@ -156,10 +148,10 @@ class SatkerController extends Controller
     public function destroy($id)
     {
         // dd('sdadas');
-        $satker = Satker::uuid($id)->delete();
+        $satker = Satker::uuid($id);
+        $satker->delete();
      
-        // return response()->json(['success'=>'Product deleted successfully.']);
-        // return view('productAjax');
-         return redirect()->route('satker.index');
+        toastr()->success('Satker Deleted','Success');
+        return redirect()->route('satker.index');
     }
 }

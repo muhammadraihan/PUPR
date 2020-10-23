@@ -35,23 +35,19 @@ class JabatanController extends Controller
 
             return Datatables::of($data)
                     ->addIndexColumn()
-                    // ->addColumn('action', function ($data) {
-                    //       return '<a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('ajaxproducts.edit',$data->id).'"><i class="fal fa-edit"></i></a>
-                    //       <a class="btn btn-danger btn-sm btn-icon waves-effect waves-themed" data-url="'.URL::route('ajaxproducts.destroy',$data->id).'" data-id="'.$data->id.'"  data-toggle="modal" data-target="#modal-delete"><i class="fal fa-trash-alt"></i></a>';
-                    //   })
                     ->addColumn('action', function($row){
-                        // if(auth()->user()->can('edit','delete')){
-                            return '<a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('jabatan.edit',$row->uuid).'"><i class="fal fa-edit"></i></a>
-                                    <a class="btn btn-danger btn-sm btn-icon waves-effect waves-themed delete-btn" data-url="'.URL::route('jabatan.destroy',$row->uuid).'" data-id="'.$row->uuid.'" data-token="'.csrf_token().'" data-toggle="modal" data-target="#modal-delete"><i class="fal fa-trash-alt"></i></a>';
-                        // }
-                        // else{
-                        //     return '<a href="#" class="badge badge-secondary">Not Authorize to Perform Action</a>';
-                        // }   
+                    if(auth()->user()->can('edit','delete')){
+                        return '
+                        <a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('jabatan.edit',$row->uuid).'"><i class="fal fa-edit"></i></a>
+                        <a class="btn btn-danger btn-sm btn-icon waves-effect waves-themed delete-btn" data-url="'.URL::route('jabatan.destroy',$row->uuid).'" data-id="'.$row->uuid.'" data-token="'.csrf_token().'" data-toggle="modal" data-target="#modal-delete"><i class="fal fa-trash-alt"></i></a>';
+                    }else{
+                        return '<a href="#" class="badge badge-secondary">Not Authorize to Perform Action</a>';
+                    }
                  })
-                 ->removeColumn('id')
-                 ->removeColumn('uuid')
-                 ->rawColumns(['action'])
-                 ->make(true);
+            ->removeColumn('id')
+            ->removeColumn('uuid')
+            ->rawColumns(['action'])
+            ->make(true);
         }
 
         return view('jabatan.index');
@@ -110,8 +106,7 @@ class JabatanController extends Controller
     public function edit($id)
     {
         $jabatan = Jabatan::uuid($id);
-      // dd($user->roles[0]['name']);
-      return view('jabatan.edit', compact('jabatan'));
+        return view('jabatan.edit', compact('jabatan'));
     }
 
     /**
@@ -145,7 +140,9 @@ class JabatanController extends Controller
      */
     public function destroy($id)
     {
-        $jabatan = Jabatan::uuid($id)->delete();
-         return redirect()->route('jabatan.index');
+        $jabatan = Jabatan::uuid($id);
+        $jabatan->delete();
+        toastr()->success('jabatan Deleted','Success');
+        return redirect()->route('jabatan.index');
     }
 }
