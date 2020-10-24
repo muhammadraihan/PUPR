@@ -42,7 +42,6 @@ class UserRoleTableSeeder extends Seeder
             // add roles
             foreach ($roles_array as $role) {
                 $role = Role::firstOrCreate(['name' => trim($role)]);
-
                 if ($role->name == 'superadmin') {
                     // assign all permissions
                     $role->syncPermissions(Permission::all());
@@ -51,11 +50,10 @@ class UserRoleTableSeeder extends Seeder
                     // for others by default only read access
                     $role->syncPermissions(Permission::where('name', 'LIKE', 'view_%')->get());
                 }
-
                 // create one user for each role
                 $this->createUser($role);
             }
-
+            //clean the log
             $this->command->info('Roles ' . $input_roles . ' added successfully');
 
         } else {

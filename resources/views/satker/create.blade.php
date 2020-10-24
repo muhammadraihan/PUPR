@@ -35,9 +35,10 @@
                         <div class="invalid-feedback">{{ $errors->first('nama') }}</div>
                         @endif
                     </div>
-                    <div class="form-group col-md-4 mb-3">
+                    <div class="form-group col-md-2 mb-3">
                         {{ Form::label('wilayah','Wilayah',['class' => 'required form-label'])}}
-                        {{ Form::text('wilayah',null,['placeholder' => 'Wilayah','class' => 'form-control '.($errors->has('wilayah') ? 'is-invalid':''),'required'])}}
+                        {!! Form::select('wilayah', ['1' => 'I', '2'=> 'II','3' => 'III','4' => 'IV'], '', ['class' => 'select2 form-control'.($errors->has('wilayah') ? 'is-invalid':''), 'required'
+                        => '', 'placeholder' => 'Pilih Wilayah']) !!}
                         @if ($errors->has('wilayah'))
                         <div class="invalid-feedback">{{ $errors->first('wilayah') }}</div>
                         @endif

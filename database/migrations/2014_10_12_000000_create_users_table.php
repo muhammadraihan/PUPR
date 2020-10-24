@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('avatar')->default('avatar_icon.png')->nullable();
             $table->string('satker_id')->nullable();
             $table->string('jabatan_id')->nullable();
+            $table->bigInteger('jabatan_urutan')->nullable();
             $table->string('last_login_ip')->nullable();
             $table->datetime('last_login_at')->nullable();
             $table->rememberToken();

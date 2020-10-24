@@ -43,40 +43,68 @@
                     <span class="nav-link-text">Dashboard</span>
                 </a>
             </li>
-            <li>
-                        <a href="{{route('satker.index')}}" title="Satker Managements"
-                            data-filter-tags="satker managements">
-                            <span class="nav-link-text" data-i18n="nav.roles_managements">Satker
-                                Management</span>
+            <li class="nav-title">Main Menu</li>
+            <li class="">
+                <a href="#" title="Theme Settings" data-filter-tags="theme settings">
+                    <i class="fal fa-database"></i>
+                    <span class="nav-link-text" data-i18n="nav.theme_settings">Data Referensi</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="{{route('jabatan.index')}}" title="Jabatan Managements" data-filter-tags="jabatan managements">
+                            <span class="nav-link-text" data-i18n="nav.roles_managements">Jabatan</span>
                         </a>
-            </li>
-            <li>
-                        <a href="{{route('jabatan.index')}}" title="Jabatan Managements"
-                            data-filter-tags="jabatan managements">
-                            <span class="nav-link-text" data-i18n="nav.roles_managements">Jabatan
-                                Management</span>
+                    </li>
+                    <li>
+                        <a href="{{route('satker.index')}}" title="Satker Managements" data-filter-tags="satker managements">
+                            <span class="nav-link-text" data-i18n="nav.roles_managements">Satker</span>
                         </a>
-            </li>
-            <li>
-                        <a href="{{route('pekerjaan.index')}}" title="Pekerjaan Managements"
-                            data-filter-tags="pekerjaan managements">
-                            <span class="nav-link-text" data-i18n="nav.roles_managements">Pekerjaan
-                                Management</span>
-                        </a>
-            </li>
-            <li>
-                        <a href="{{route('kontrak.index')}}" title="Kontrak Managements"
-                            data-filter-tags="kontrak managements">
-                            <span class="nav-link-text" data-i18n="nav.roles_managements">Kontrak
-                                Management</span>
-                        </a>
-            </li>
-            <li>
+                    </li>
+                    <li>
                         <a href="{{route('jenker.index')}}" title="Jenis Pekerjaan Managements"
                             data-filter-tags="jenis pekerjaan managements">
-                            <span class="nav-link-text" data-i18n="nav.roles_managements">Jenis Pekerjaan
-                                Management</span>
+                            <span class="nav-link-text" data-i18n="nav.roles_managements">Jenis Pekerjaan</span>
                         </a>
+                    </li>
+                    
+                </ul>
+            </li>
+            <li>
+                <a href="#" title="Theme Settings" data-filter-tags="theme settings">
+                    <i class="fal fa-road"></i>
+                    <span class="nav-link-text" data-i18n="nav.theme_settings">Data Pekerjaan</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="{{route('pekerjaan.index')}}" title="Pekerjaan Managements"
+                            data-filter-tags="pekerjaan managements">
+                            <span class="nav-link-text" data-i18n="nav.roles_managements">Pekerjaan</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('kontrak.index')}}" title="Kontrak Managements" data-filter-tags="kontrak managements">
+                            <span class="nav-link-text" data-i18n="nav.roles_managements">Kontrak</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="pelaksanaan" title="Theme Settings" data-filter-tags="theme settings">
+                    <i class="fal fa-chart-bar"></i>
+                    <span class="nav-link-text" data-i18n="nav.theme_settings">Pelaksanaan Pekerjaan</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" title="Theme Settings" data-filter-tags="theme settings">
+                    <i class="fal fa-print"></i>
+                    <span class="nav-link-text" data-i18n="nav.theme_settings">Laporan</span>
+                </a>
+            </li>
+            <li>
+            <a href="{{route('pengguna.index')}}" title="Theme Settings" data-filter-tags="theme settings">
+                    <i class="fal fa-users"></i>
+                    <span class="nav-link-text" data-i18n="nav.theme_settings">Pengguna</span>
+                </a>
             </li>
             @hasanyrole('superadmin')
             <li class="nav-title">ACL & Settings</li>
@@ -109,7 +137,7 @@
                 </ul>
             </li>
             <li class="">
-            <a href="{{route('logs')}}" title="System Log" data-filter-tags="System Log">
+                <a href="{{route('logs')}}" title="System Log" data-filter-tags="System Log">
                     <i class="fal fa-shield-check"></i>
                     <span class="nav-link-text" data-i18n="nav.system_log">System Logs</span>
                 </a>
