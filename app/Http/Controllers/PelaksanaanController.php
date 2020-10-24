@@ -158,9 +158,12 @@ class PelaksanaanController extends Controller
             'pekerjaan' => 'required',
             'urutan' => 'required|numeric',
             'tanggal' => 'required',
-            'rencana' => 'required|numeric|between:0,100',
-            'realisasi' => 'required|numeric|between:0,100',
-            'deviasi' => 'required|numeric|between:0,100',
+            'rencana_fisik' => 'required|numeric|between:0,100',
+            'realisasi_fisik' => 'required|numeric|between:0,100',
+            'deviasi_fisik' => 'required|numeric|between:0,100',
+            'rencana_keuangan' => 'required|numeric|between:0,100',
+            'realisasi_keuangan' => 'required|numeric|between:0,100',
+            'deviasi_keuangan' => 'required|numeric|between:0,100',
         ];
         $messages = [
             '*.required' => 'Tidak boleh kosong',
@@ -173,9 +176,12 @@ class PelaksanaanController extends Controller
         $pelaksanaan->pekerjaan_id = $request->pekerjaan;
         $pelaksanaan->nomor_pelaksanaan = $request->urutan;
         $pelaksanaan->tanggal_pelaksanaan = $request->tanggal;
-        $pelaksanaan->rencana = $request->rencana;
-        $pelaksanaan->realisasi = $request->realisasi;
-        $pelaksanaan->deviasi = $request->deviasi;
+        $pelaksanaan->rencana_fisik = $request->rencana_fisik;
+        $pelaksanaan->realisasi_fisik = $request->realisasi_fisik;
+        $pelaksanaan->deviasi_fisik = $request->deviasi_fisik;
+        $pelaksanaan->rencana_keuangan = $request->rencana_keuangan;
+        $pelaksanaan->realisasi_keuangan = $request->realisasi_keuangan;
+        $pelaksanaan->deviasi_keuangan = $request->deviasi_keuangan;
         $pelaksanaan->permasalahan = $request->permasalahan;
         $pelaksanaan->tindakan = $request->tindakan;
         $pelaksanaan->edited_by = Auth::user()->uuid;
