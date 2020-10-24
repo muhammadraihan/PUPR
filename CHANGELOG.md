@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0-alpha.4](https://git.fiotech.co/wbaindonesia/project-reporting/compare/v1.1.0-alpha.3...v1.1.0-alpha.4) (2020-10-24)
+
+
+### Features
+
+* Adding new basic data table seeder ([49cfa3f](https://git.fiotech.co/wbaindonesia/project-reporting/commit/49cfa3f3cfca6b09e57cdfb21b9517eaf12fc0cc))
+* Adding pelaksaan keuangan edit form ([4b3d70a](https://git.fiotech.co/wbaindonesia/project-reporting/commit/4b3d70aa345c4c0515ad133644f370a44649d13d))
+* Change to pelaksanaan and adding  pelaksanaan keuangan view ([4b31d8e](https://git.fiotech.co/wbaindonesia/project-reporting/commit/4b31d8e3b662ec7d95c0557389a6879e3604de75))
+* Move fisiks table to pelaksanaans so it provide pelaksanaan keuangan ([f84a5f3](https://git.fiotech.co/wbaindonesia/project-reporting/commit/f84a5f34cbf57b92974d29ae624b50e1daa9bbd4))
+* Now support edit pelaksaaan keuangan ([787fa4a](https://git.fiotech.co/wbaindonesia/project-reporting/commit/787fa4a95f06b3de80eac7acab9fb77b8ce3a7f5))
+* Now support to adding pelaksanaan keuangan ([aadcbe2](https://git.fiotech.co/wbaindonesia/project-reporting/commit/aadcbe2b971f21d73e7a0c0eb52c0e1013b9f108))
+
 ## [1.1.0-alpha.3](https://git.fiotech.co/wbaindonesia/project-reporting/compare/v1.1.0-alpha.2...v1.1.0-alpha.3) (2020-10-22)
 
 
