@@ -13,7 +13,7 @@
             <div class="panel-hdr">
                 <h2>Dokumentasi <span class="fw-300"><i>Pelaksanaan Fisik</i></span></h2>
                 <div class="panel-toolbar">
-                    <a class="nav-link active" href="{{route('fisik.index')}}"><i class="fal fa-arrow-alt-left">
+                    <a class="nav-link active" href="{{route('pelaksanaan.index')}}"><i class="fal fa-arrow-alt-left">
                         </i>
                         <span class="nav-link-text">Back</span>
                     </a>
@@ -26,24 +26,24 @@
                     <div class="panel-tag">
                         Info Pekerjaan
                     </div>
-                    {!! Form::open(['route' => 'fisik.store','method' => 'POST','class' =>
+                    {!! Form::open(['route' => 'pelaksanaan.upload','method' => 'POST','class' =>
                     'needs-validation','novalidate']) !!}
                     <div class="row">
                         <div class="form-group col-md-8 mb-3">
                             {!! Form::label('pekerjaan', 'Nama Paket', ['class' => 'form-label']) !!}
-                            {!! Form::text('pekerjaan',$fisik->pekerjaan->title, ['class' => 'form-control'.($errors->has('pekerjaan') ? 'is-invalid':''), 'disabled'
+                            {!! Form::text('pekerjaan',$pelaksanaan->pekerjaan->title, ['class' => 'form-control'.($errors->has('pekerjaan') ? 'is-invalid':''), 'disabled'
                             => 'disabled',]) !!}
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-2 mb-3">
                             {!! Form::label('urutan', 'Pelaksanaan Ke', ['class' => 'form-label']) !!}
-                            {!! Form::text('urutan',$fisik->nomor_pelaksanaan, ['class' => 'form-control'.($errors->has('urutan') ? 'is-invalid':''), 'disabled'
+                            {!! Form::text('urutan',$pelaksanaan->nomor_pelaksanaan, ['class' => 'form-control'.($errors->has('urutan') ? 'is-invalid':''), 'disabled'
                             => 'disabled',]) !!}
                         </div>
                         <div class="form-group col-md-2 mb-3">
                             {!! Form::label('urutan', 'Tanggal Pelaksanaan', ['class' => 'form-label']) !!}
-                            {!! Form::text('urutan',$fisik->tanggal_pelaksanaan, ['class' => 'form-control'.($errors->has('urutan') ? 'is-invalid':''), 'disabled'
+                            {!! Form::text('urutan',$pelaksanaan->tanggal_pelaksanaan, ['class' => 'form-control'.($errors->has('urutan') ? 'is-invalid':''), 'disabled'
                             => 'disabled',]) !!}
                         </div>
                     </div>
@@ -111,16 +111,19 @@
     Dropzone.autoDiscover = false;
     $(document).ready(function(){
         $("#dropzone-early").dropzone({ 
+            autoProcessQueue: false,
             paramName: "image-early",
             url: "/file/post",
             addRemoveLinks: true,
         });
         $("#dropzone-before").dropzone({
+            autoProcessQueue: false,
             paramName: "image-before",
             url: "/file/post",
             addRemoveLinks: true,
         });
         $("#dropzone-present").dropzone({
+            autoProcessQueue: false,
             paramName: "image-now",
             url: "/file/post",
             addRemoveLinks: true,

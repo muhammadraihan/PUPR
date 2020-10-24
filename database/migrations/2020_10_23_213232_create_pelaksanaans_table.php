@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProgresFisiksTable extends Migration
+class CreatePelaksanaansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,18 @@ class CreateProgresFisiksTable extends Migration
      */
     public function up()
     {
-        Schema::create('progres_fisiks', function (Blueprint $table) {
+        Schema::create('pelaksanaans', function (Blueprint $table) {
             $table->id();
             $table->string('uuid')->unique();
             $table->bigInteger('pekerjaan_id')->nullable();
             $table->bigInteger('nomor_pelaksanaan')->nullable();
             $table->date('tanggal_pelaksanaan')->nullable();
-            $table->float('rencana',8,2)->nullable();
-            $table->float('realisasi',8,2)->nullable();
-            $table->float('deviasi',8,2)->nullable();
+            $table->float('rencana_fisik',8,2)->nullable();
+            $table->float('realisasi_fisik',8,2)->nullable();
+            $table->float('deviasi_fisik',8,2)->nullable();
+            $table->float('rencana_keuangan',8,2)->nullable();
+            $table->float('realisasi_keuangan',8,2)->nullable();
+            $table->float('deviasi_keuangan',8,2)->nullable();
             $table->text('permasalahan')->nullable();
             $table->text('tindakan')->nullable();
             $table->string('created_by')->nullable();
@@ -37,6 +40,6 @@ class CreateProgresFisiksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('progres_fisiks');
+        Schema::dropIfExists('pelaksanaans');
     }
 }

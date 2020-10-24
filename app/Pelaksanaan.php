@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use App\Traits\Uuid;
 
-class ProgresFisik extends Model
+class Pelaksanaan extends Model
 {
     use Uuid;
     use LogsActivity;
@@ -19,11 +19,14 @@ class ProgresFisik extends Model
      */
     protected $fillable = [
             'pekerjaan_id',
-            'nomor_progres',
-            'tanggal_progres',
-            'rencana',
-            'realisasi',
-            'devisasi',
+            'nomor_pelaksanaan',
+            'tanggal_pelaksanaan',
+            'rencana_fisik',
+            'realisasi_fisik',
+            'devisasi_fisik',
+            'rencana_keuangan',
+            'realisasi_keuangan',
+            'devisasi_keuangan',
             'permasalahan',
             'tindakan',
     ];
