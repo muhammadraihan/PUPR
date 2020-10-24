@@ -117,10 +117,10 @@ class Permission extends \Spatie\Permission\Models\Permission
             'edit_pengguna',
             'delete_pengguna',
 
-            'view_fisik',
-            'add_fisik',
-            'edit_fisik',
-            'delete_fisik',
+            'view_pelaksanaan',
+            'add_pelaksanaan',
+            'edit_pelaksanaan',
+            'delete_pelaksanaan',
 
         ];
     }

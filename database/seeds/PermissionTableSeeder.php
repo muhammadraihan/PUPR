@@ -19,10 +19,13 @@ class PermissionTableSeeder extends Seeder
         $role = Role::where('name','superadmin')->first();
         // Confirm roles needed
         if ($this->command->confirm('Seed module permission? [y|N]', true)) {
-
+            $this->command->getOutput()->createProgressBar(count($permissions));
+            $this->command->getOutput()->progressStart();
             foreach ($permissions as $perms) {
                 Permission::firstOrCreate(['name' => $perms]);
+                $this->command->getOutput()->progressAdvance();
             }
+            $this->command->getOutput()->progressFinish();
             $this->command->info('Module Permissions added.');
             $this->command->info('Granted all the permissions to superadmin');
             $role->syncPermissions(Permission::all());

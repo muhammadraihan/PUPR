@@ -23,8 +23,8 @@
                     Pelaksanaan <span class="fw-300"><i>Fisik</i></span>
                 </h2>
                 <div class="panel-toolbar">
-                    @can('add_fisik')
-                    <a class="nav-link active" href="{{route('fisik.create')}}"><i class="fal fa-plus-circle">
+                    @can('add_pelaksanaan')
+                    <a class="nav-link active" href="{{route('pelaksanaan.create')}}"><i class="fal fa-plus-circle">
                         </i>
                         <span class="nav-link-text">Add New</span>
                     </a>
@@ -41,13 +41,16 @@
                             <tr>
                                 <th>#</th>
                                 <th>Nama Paket</th>
-                                <th>Pelaksaaan</th>
-                                <th>Tanggal Pelaksanaan</th>
-                                <th>Rencana (%)</th>
-                                <th>Realisasi (%)</th>
-                                <th>Deviasi (%)</th>
+                                <th>Renc. Fisik (%)</th>
+                                <th>Real. Fisik (%)</th>
+                                <th>Dev. Fisik (%)</th>
+                                <th>Renc. Keuangan (%)</th>
+                                <th>Real. Keuangan (%)</th>
+                                <th>Dev. Keuangan (%)</th>
                                 <th>Permasalahan</th>
                                 <th>Tindakan</th>
+                                <th>Pelaksaaan</th>
+                                <th>Tgl. Pelaksanaan</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -97,7 +100,7 @@
             "responsive": true,
             "order": [[ 0, "asc" ]],
             "ajax":{
-                url:'{{route('fisik.index')}}',
+                url:'{{route('pelaksanaan.index')}}',
                 type : "GET",
                 dataType: 'json',
                 error: function(data){
@@ -107,13 +110,16 @@
             "columns": [
                 {data:'rownum',width:'*',searchable:false},
                 {data: 'paket',width:'*'},
-                {data: 'nomor_pelaksanaan',width:'*'},
-                {data: 'tanggal_pelaksanaan',width:'*'},
-                {data: 'rencana',width:'*'},
-                {data: 'realisasi',width:'*'},
-                {data: 'deviasi',width:'*'},
+                {data: 'rencana_fisik',width:'*'},
+                {data: 'realisasi_fisik',width:'*'},
+                {data: 'deviasi_fisik',width:'*'},
+                {data: 'rencana_keuangan',width:'*'},
+                {data: 'realisasi_keuangan',width:'*'},
+                {data: 'deviasi_keuangan',width:'*'},
                 {data: 'permasalahan',width:'*'},
                 {data: 'tindakan',width:'*'},
+                {data: 'nomor_pelaksanaan',width:'*'},
+                {data: 'tanggal_pelaksanaan',width:'*'},
                 {data: 'action',width:'*',searchable:false}    
             ]
         });
