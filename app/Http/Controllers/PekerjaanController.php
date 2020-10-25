@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Traits\Authorizable;
 
 use App\Pekerjaan;
+use App\JenisPekerjaan;
+use App\Satker;
 use Carbon\Carbon;
 
 use Auth;
@@ -24,7 +26,7 @@ class PekerjaanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    use Authorizable;
+    // use Authorizable;
 
     public function index()
     {
@@ -35,14 +37,20 @@ class PekerjaanController extends Controller
 
             return Datatables::of($data)
                     ->addIndexColumn()
+                    ->editColumn('jenis_pekerjaan',function($row){
+                        return $row->jenker->nama;
+                    })
+                    ->editColumn('satker_id',function($row){
+                        return $row->satker->nama;
+                    })
                     ->addColumn('action', function($row){
-                        if(auth()->user()->can('edit','delete')){
+                        // if(auth()->user()->can('edit','delete')){
                             return '<a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('pekerjaan.edit',$row->uuid).'"><i class="fal fa-edit"></i></a>
                                     <a class="btn btn-danger btn-sm btn-icon waves-effect waves-themed delete-btn" data-url="'.URL::route('pekerjaan.destroy',$row->uuid).'" data-id="'.$row->uuid.'" data-token="'.csrf_token().'" data-toggle="modal" data-target="#modal-delete"><i class="fal fa-trash-alt"></i></a>';
-                        }
-                        else{
-                            return '<a href="#" class="badge badge-secondary">Not Authorize to Perform Action</a>';
-                        }   
+                        // }
+                        // else{
+                        //     return '<a href="#" class="badge badge-secondary">Not Authorize to Perform Action</a>';
+                        // }   
                  })
                  ->removeColumn('id')
                  ->removeColumn('uuid')
@@ -60,7 +68,9 @@ class PekerjaanController extends Controller
      */
     public function create()
     {
-        return view('pekerjaan.create');
+        $jenkers = JenisPekerjaan::all()->pluck('nama','id');
+        $satkers = Satker::all()->pluck('nama','id');
+        return view('pekerjaan.create',compact('jenkers','satkers'));
     }
 
     /**
@@ -71,13 +81,19 @@ class PekerjaanController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $rules = [
             'title' => 'required',
             'jenis_pekerjaan' => 'required',
             'satker_id' => 'required',
             'tahun_mulai' => 'required',
             'tahun_selesai' => 'required',
-        ]);
+        ];
+
+        $messages = [
+            '*.required' => 'Field tidak boleh kosong !',
+        ];
+
+        $this->validate($request, $rules, $messages);
 
         $pekerjaan = new Pekerjaan();
         $pekerjaan->title = $request->title;
@@ -113,9 +129,11 @@ class PekerjaanController extends Controller
      */
     public function edit($id)
     {
+        $jenkers = JenisPekerjaan::all()->pluck('nama','id');
+        $satkers = Satker::all()->pluck('nama','id');
         $pekerjaan = Pekerjaan::uuid($id);
       
-        return view('pekerjaan.edit', compact('pekerjaan'));
+        return view('pekerjaan.edit', compact('pekerjaan','jenkers','satkers'));
     }
 
     /**
@@ -127,13 +145,20 @@ class PekerjaanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
+        $rules = [
             'title' => 'required',
             'jenis_pekerjaan' => 'required',
             'satker_id' => 'required',
             'tahun_mulai' => 'required',
             'tahun_selesai' => 'required',
-          ]);
+        ];
+
+        $messages = [
+            '*.required' => 'Field tidak boleh kosong !',
+        ];
+
+        $this->validate($request, $rules, $messages);
+
           // Saving data
           $pekerjaan = Pekerjaan::uuid($id);
           $pekerjaan->title = $request->title;
@@ -143,7 +168,7 @@ class PekerjaanController extends Controller
           $pekerjaan->tahun_selesai = $request->tahun_selesai;
           $pekerjaan->edited_by = Auth::user()->uuid;
     
-          $satker->save();
+          $pekerjaan->save();
     
           toastr()->success('Pekerjaan Edited','Success');
           return redirect()->route('pekerjaan.index');
@@ -157,7 +182,7 @@ class PekerjaanController extends Controller
      */
     public function destroy($id)
     {
-        $pekerjaan = Pekerjaan::uuid($id)->delete();
+        $pekerjaan = Pekerjaan::uuid($id);
         $pekerjaan->delete();
         toastr()->success('Pekerjaan Deleted','Success');
         return redirect()->route('pekerjaan.index');
