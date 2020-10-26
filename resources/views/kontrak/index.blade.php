@@ -50,7 +50,7 @@
                                 <th>Tanggal Adendum Akhir</th>
                                 <th>Tanggal PHO</th>
                                 <th>Tanggal FHO</th>
-                                <th>Keterangan</th>
+                                <th>Data Teknis</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -99,6 +99,10 @@
             "serverSide": true,
             "responsive": true,
             "order": [[ 0, "asc" ]],
+            "columnDefs": [{
+                "visible": true,
+                "targets": -4
+            }],
             "ajax":{
                 url:'{{route('kontrak.index')}}',
                 type : "GET",
@@ -119,7 +123,7 @@
                 {data: 'tanggal_adendum_akhir',width:'*'},
                 {data: 'tanggal_pho',width:'*'},
                 {data: 'tanggal_fho',width:'*'},
-                {data: 'keterangan',width:'*'},
+                {data: 'data_teknis',width:'*'},
                 {data: 'action',width:'10%',searchable:false}    
             ]
         });
