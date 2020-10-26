@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Traits\Authorizable;
 
 use App\DataKontrak;
+use App\Pekerjaan;
 use Carbon\Carbon;
 
 use Auth;
@@ -31,9 +32,12 @@ class KontrakController extends Controller
         if (request()->ajax()) {
             DB::statement(DB::raw('set @rownum=0'));
             $contract = DataKontrak::select([DB::raw('@rownum  := @rownum  + 1 AS rownum'),
-            'id','uuid','pekerjaan_id','pagu','nilai_kontrak','panjang_jalan','panjang_jembatan','tahun_anggaran','tanggal_kontrak_awal','tanggal_adendum_kontrak','tanggal_adendum_akhir','tanggal_pho','tanggal_fho','keterangan','created_by','edited_by'])->get();
+            'id','uuid','pekerjaan_id','pagu','nilai_kontrak','panjang_jalan','panjang_jembatan','tahun_anggaran','tanggal_kontrak_awal','tanggal_adendum_kontrak','tanggal_adendum_akhir','tanggal_pho','tanggal_fho','data_teknis','created_by','edited_by'])->get();
     
             return DataTables::of($contract)
+            ->editColumn('pekerjaan_id', function($contract){
+                return $contract->pekerjaan->title;
+            })
             ->addColumn('action', function ($contracts) {
               if(auth()->user()->can('edit_kontrak','delete_kontrak')){
                 return '<a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('kontrak.edit',$contracts->uuid).'"><i class="fal fa-edit"></i></a>
@@ -57,7 +61,14 @@ class KontrakController extends Controller
      */
     public function create()
     {
-        return view('kontrak.create');
+        $pekerjaan = Pekerjaan::all();
+        return view('kontrak.create',compact('pekerjaan'));
+    }
+
+    public function getForm(Request $request)
+    {
+        $pekerjaan = Pekerjaan::uuid($request['param']);
+        return view('kontrak.formComponent',compact('pekerjaan'));
     }
 
     /**
@@ -68,20 +79,27 @@ class KontrakController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
+        // dd($request->all());
+        $rules = [
             'pekerjaan_id' => 'required',
             'pagu' => 'required',
             'nilai_kontrak' => 'required',
-            'panjang_jalan' => 'required',
-            'panjang_jembatan' => 'required',
+            // 'panjang_jalan' => 'required',
+            // 'panjang_jembatan' => 'required',
             'tahun_anggaran' => 'required',
             'tanggal_kontrak_awal' => 'required',
             'tanggal_adendum_kontrak' => 'required',
             'tanggal_adendum_akhir' => 'required',
             'tanggal_pho' => 'required',
             'tanggal_fho' => 'required',
-            'keterangan' => 'required',
-          ]);
+            'data_teknis' => 'required',
+          ];
+
+        $messages = [
+            '*.required' => 'Data Tidak boleh kosong',
+        ];
+
+        $this->validate($request, $rules, $messages);
           
           // Save
           $kontrak = new DataKontrak();
@@ -96,7 +114,7 @@ class KontrakController extends Controller
           $kontrak->tanggal_adendum_akhir = Carbon::parse($request->tanggal_adendum_akhir)->format('Y-m-d');
           $kontrak->tanggal_pho = Carbon::parse($request->tanggal_pho)->format('Y-m-d');
           $kontrak->tanggal_fho = Carbon::parse($request->tanggal_fho)->format('Y-m-d');
-          $kontrak->keterangan = $request->keterangan;
+          $kontrak->data_teknis = $request->data_teknis;
           $kontrak->created_by = Auth::user()->uuid;
           $kontrak->save();
     
@@ -136,20 +154,25 @@ class KontrakController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
+        $rules = [
             'pekerjaan_id' => 'required',
             'pagu' => 'required',
             'nilai_kontrak' => 'required',
-            'panjang_jalan' => 'required',
-            'panjang_jembatan' => 'required',
+            // 'panjang_jalan' => 'required',
+            // 'panjang_jembatan' => 'required',
             'tahun_anggaran' => 'required',
             'tanggal_kontrak_awal' => 'required',
             'tanggal_adendum_kontrak' => 'required',
             'tanggal_adendum_akhir' => 'required',
             'tanggal_pho' => 'required',
             'tanggal_fho' => 'required',
-            'keterangan' => 'required',
-          ]);
+            'data_teknis' => 'required',
+          ];
+        $messages = [
+            '*.required' => 'Data Tidak Boleh Kosong',
+        ];
+
+        $this->validate($request, $rules, $messages);
           
           // Save
           $kontrak = DataKontrak::uuid($id);
@@ -164,7 +187,7 @@ class KontrakController extends Controller
           $kontrak->tanggal_adendum_akhir = Carbon::parse($request->tanggal_adendum_akhir)->format('Y-m-d');
           $kontrak->tanggal_pho = Carbon::parse($request->tanggal_pho)->format('Y-m-d');
           $kontrak->tanggal_fho = Carbon::parse($request->tanggal_fho)->format('Y-m-d');
-          $kontrak->keterangan = $request->keterangan;
+          $kontrak->data_teknis = $request->data_teknis;
           $kontrak->edited_by = Auth::user()->uuid;
           $kontrak->save();
     

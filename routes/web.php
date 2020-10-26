@@ -46,4 +46,7 @@ Route::group(['prefix' => 'backoffice', 'middleware' => ['auth']], function() {
     // upload dokumentasi pelaksanaan
     Route::get('pelaksanaan/{uuid}/dokumentasi',['as' => 'pelaksanaan.dokumentasi','uses'=> 'PelaksanaanController@getUpload']);
     Route::post('pelaksanaan/dokumentasi/upload',['as' => 'pelaksanaan.upload','uses'=> 'PelaksanaanController@uploadImages']);
+
+    // ajax data kontrak
+    Route::get('getForm',['as' => 'getForm','uses'=> 'KontrakController@getForm']);
 });

@@ -31,10 +31,15 @@
                     'needs-validation','novalidate','enctype' => 'multipart/form-data']) !!}
 
                     <div class="form-group col-md-6 mb-3">
-                        {{ Form::label('pekerjaan','Pekerjaan',['class' => 'required form-label'])}}
-                        {{ Form::text('pekerjaan_id',null,['placeholder' => 'Pekerjaan','class' => 'form-control '.($errors->has('nama') ? 'is-invalid':''),'required'])}}
+                        {!! Form::label('Pekerjaan', 'Pilih Pekerjaan', ['class' => 'required form-label']) !!}
+                        <select class="pekerjaan select2 form-control" name="pekerjaan_id" >
+                            <option value="">Pilih Pekerjaan</option>
+                            @foreach($pekerjaan as $p)
+                                <option value="{{$p->uuid}}">{{$p->title}}</option>
+                            @endforeach
+                        </select>
                         @if ($errors->has('pekerjaan'))
-                        <div class="invalid-feedback">{{ $errors->first('pekerjaan') }}</div>
+                        <div class="help-block text-danger">{{ $errors->first('pekerjaan') }}</div>
                         @endif
                     </div>
 

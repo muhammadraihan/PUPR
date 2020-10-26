@@ -29,12 +29,14 @@
                     </div>
                     {!! Form::open(['route' => ['kontrak.update',$kontrak->uuid],'method' => 'PUT','class' =>
                     'needs-validation','novalidate']) !!}
-                    
+
                     <div class="form-group col-md-6 mb-3">
-                        {{ Form::label('pekerjaan','Pekerjaan',['class' => 'required form-label'])}}
-                        {{ Form::text('pekerjaan_id',$kontrak->pekerjaan_id,['placeholder' => 'Pekerjaan','class' => 'form-control '.($errors->has('nama') ? 'is-invalid':''),'required'])}}
+                        {!! Form::label('Pekerjaan', 'Pilih Pekerjaan', ['class' => 'required form-label']) !!}
+                        <select class="pekerjaan select2 form-control" name="pekerjaan_id" readonly>
+                            <option value="{{$kontrak->pekerjaan_id}}" selected>{{$kontrak->pekerjaan->title}}</option>
+                        </select>
                         @if ($errors->has('pekerjaan'))
-                        <div class="invalid-feedback">{{ $errors->first('pekerjaan') }}</div>
+                        <div class="help-block text-danger">{{ $errors->first('pekerjaan') }}</div>
                         @endif
                     </div>
 
@@ -53,23 +55,24 @@
                         <div class="invalid-feedback">{{ $errors->first('nilai') }}</div>
                         @endif
                     </div>
-
-                    <div class="form-group col-md-6 mb-3">
-                        {{ Form::label('jalan','Panjang Jalan',['class' => 'required form-label'])}}
-                        {{ Form::text('panjang_jalan',$kontrak->panjang_jalan,['placeholder' => 'Panjang Jalan','class' => 'form-control '.($errors->has('jalan') ? 'is-invalid':''),'required'])}}
-                        @if ($errors->has('jalan'))
-                        <div class="invalid-feedback">{{ $errors->first('jalan') }}</div>
-                        @endif
-                    </div>
-
-                    <div class="form-group col-md-6 mb-3">
-                        {{ Form::label('jembatan','Panjang Jembatan',['class' => 'required form-label'])}}
-                        {{ Form::text('panjang_jembatan',$kontrak->panjang_jembatan,['placeholder' => 'Panjang Jembatan','class' => 'form-control '.($errors->has('jembatan') ? 'is-invalid':''),'required'])}}
-                        @if ($errors->has('jembatan'))
-                        <div class="invalid-feedback">{{ $errors->first('jembatan') }}</div>
-                        @endif
-                    </div>
-
+                    @if ($kontrak->panjang_jalan !== null)
+                        <div class="form-group col-md-6 mb-3">
+                            {{ Form::label('jalan','Panjang Jalan',['class' => 'required form-label'])}}
+                            {{ Form::text('panjang_jalan',$kontrak->panjang_jalan,['placeholder' => 'Panjang Jalan','class' => 'form-control '.($errors->has('jalan') ? 'is-invalid':''),'required'])}}
+                            @if ($errors->has('jalan'))
+                            <div class="invalid-feedback">{{ $errors->first('jalan') }}</div>
+                            @endif
+                        </div>
+                    @else
+                        <div class="form-group col-md-6 mb-3">
+                            {{ Form::label('jembatan','Panjang Jembatan',['class' => 'required form-label'])}}
+                            {{ Form::text('panjang_jembatan',$kontrak->panjang_jembatan,['placeholder' => 'Panjang Jembatan','class' => 'form-control '.($errors->has('jembatan') ? 'is-invalid':''),'required'])}}
+                            @if ($errors->has('jembatan'))
+                            <div class="invalid-feedback">{{ $errors->first('jembatan') }}</div>
+                            @endif
+                        </div>
+                    @endif
+                    
                     <div class="form-group col-sm-6 col-xl-4">
                         <label>Tahun Anggaran</label>
                         <input type="text" class="form-control js-bg-target" placeholder="Tahun Anggaran"
@@ -125,10 +128,10 @@
                     </div>
 
                     <div class="form-group col-md-6 mb-3">
-                        {{ Form::label('keterangan','Keterangan',['class' => 'required form-label'])}}
-                        {{ Form::text('keterangan',$kontrak->keterangan,['placeholder' => 'Keterangan','class' => 'form-control '.($errors->has('keterangan') ? 'is-invalid':''),'required'])}}
-                        @if ($errors->has('keterangan'))
-                        <div class="invalid-feedback">{{ $errors->first('keterangan') }}</div>
+                        {{ Form::label('data_teknis','Data Teknis',['class' => 'required form-label'])}}
+                        {{ Form::textarea('data_teknis',$kontrak->data_teknis,['placeholder' => 'Data Teknis ','class' => 'form-control '.($errors->has('data_teknis') ? 'is-invalid':''),'required'])}}
+                        @if ($errors->has('data_teknis'))
+                        <div class="invalid-feedback">{{ $errors->first('data_teknis') }}</div>
                         @endif
                     </div>
                     
