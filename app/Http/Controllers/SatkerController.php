@@ -36,6 +36,16 @@ class SatkerController extends Controller
 
             return Datatables::of($data)
                     ->addIndexColumn()
+                    ->editColumn('created_by',function($row){
+                        return $row->userCreate->name;
+                    })
+                    ->editColumn('edited_by',function($row){
+                        if($row->edited_by != null){
+                        return $row->userEdit->name;
+                        }else{
+                            return null;
+                        }
+                    })
                     ->addColumn('action', function($row){
                     if(auth()->user()->can('edit','delete')){
                         return '

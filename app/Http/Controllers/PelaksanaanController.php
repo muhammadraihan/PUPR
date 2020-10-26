@@ -67,7 +67,7 @@ class PelaksanaanController extends Controller
      */
     public function create()
     {
-        $pekerjaans = Pekerjaan::all()->pluck('title','id');
+        $pekerjaans = Pekerjaan::all()->pluck('title','uuid');
         return view('pelaksanaan.create',compact('pekerjaans'));
     }
 
@@ -138,7 +138,7 @@ class PelaksanaanController extends Controller
      */
     public function edit($uuid)
     {
-        $pekerjaans = Pekerjaan::all()->pluck('title','id');
+        $pekerjaans = Pekerjaan::all()->pluck('title','uuid');
         $pelaksanaan = Pelaksanaan::uuid($uuid);
         // dd($pelaksanaan->pekerjaan->title);
         return view('pelaksanaan.edit',compact('pelaksanaan','pekerjaans'));
