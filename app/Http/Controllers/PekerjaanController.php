@@ -33,7 +33,7 @@ class PekerjaanController extends Controller
         if (request()->ajax()) {
             DB::statement(DB::raw('set @rownum=0'));
             $data = Pekerjaan::select([DB::raw('@rownum  := @rownum  + 1 AS rownum'),
-            'id','uuid','title','jenis_pekerjaan','satker_id','tahun_mulai','tahun_selesai','created_by','edited_by'])->get();
+            'id','uuid','title','jenis_pekerjaan','satker_id','tahun_mulai','tahun_selesai','created_by','edited_by']);
 
             return Datatables::of($data)
                     ->addIndexColumn()
@@ -41,7 +41,7 @@ class PekerjaanController extends Controller
                         return $row->jenker->nama;
                     })
                     ->editColumn('satker_id',function($row){
-                        return $row->satker->nama;
+                        return $row->satker->wilayah;
                     })
                     ->editColumn('created_by',function($row){
                         return $row->userCreate->name;
@@ -79,7 +79,7 @@ class PekerjaanController extends Controller
     public function create()
     {
         $jenkers = JenisPekerjaan::all()->pluck('nama','uuid');
-        $satkers = Satker::all()->pluck('nama','uuid');
+        $satkers = Satker::all()->pluck('wilayah','uuid');
         return view('pekerjaan.create',compact('jenkers','satkers'));
     }
 
@@ -140,7 +140,7 @@ class PekerjaanController extends Controller
     public function edit($id)
     {
         $jenkers = JenisPekerjaan::all()->pluck('nama','uuid');
-        $satkers = Satker::all()->pluck('nama','uuid');
+        $satkers = Satker::all()->pluck('wilayah','uuid');
         $pekerjaan = Pekerjaan::uuid($id);
       
         return view('pekerjaan.edit', compact('pekerjaan','jenkers','satkers'));

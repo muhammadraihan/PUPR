@@ -31,7 +31,7 @@ class JabatanController extends Controller
         if (request()->ajax()) {
             DB::statement(DB::raw('set @rownum=0'));
             $data = Jabatan::select([DB::raw('@rownum  := @rownum  + 1 AS rownum'),
-            'id','uuid','nama','created_by','edited_by'])->get();
+            'id','uuid','nama','created_by','edited_by']);
 
             return Datatables::of($data)
                     ->addIndexColumn()

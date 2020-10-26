@@ -33,7 +33,7 @@ class PembebasanLahanController extends Controller
         if (request()->ajax()) {
             DB::statement(DB::raw('set @rownum=0'));
             $lahan = PembebasanLahan::select([DB::raw('@rownum  := @rownum  + 1 AS rownum'),
-            'id','uuid','pekerjaan_id','kebutuhan','sudah_bebas','belum_bebas','dokumentasi_id','permasalahan','tindak_lanjut','created_by','edited_by'])->get();
+            'id','uuid','pekerjaan_id','kebutuhan','sudah_bebas','belum_bebas','dokumentasi_id','permasalahan','tindak_lanjut','created_by','edited_by']);
     
             return DataTables::of($lahan)
             ->editColumn('pekerjaan_id', function($lahans){

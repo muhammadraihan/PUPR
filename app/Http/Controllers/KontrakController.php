@@ -32,7 +32,7 @@ class KontrakController extends Controller
         if (request()->ajax()) {
             DB::statement(DB::raw('set @rownum=0'));
             $contract = DataKontrak::select([DB::raw('@rownum  := @rownum  + 1 AS rownum'),
-            'id','uuid','pekerjaan_id','pagu','nilai_kontrak','panjang_jalan','panjang_jembatan','tahun_anggaran','tanggal_kontrak_awal','tanggal_adendum_kontrak','tanggal_adendum_akhir','tanggal_pho','tanggal_fho','data_teknis','created_by','edited_by'])->get();
+            'id','uuid','pekerjaan_id','pagu','nilai_kontrak','panjang_jalan','panjang_jembatan','tahun_anggaran','tanggal_kontrak_awal','tanggal_adendum_kontrak','tanggal_adendum_akhir','tanggal_pho','tanggal_fho','data_teknis','created_by','edited_by']);
     
             return DataTables::of($contract)
             ->editColumn('pekerjaan_id', function($contract){

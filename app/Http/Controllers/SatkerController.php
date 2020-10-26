@@ -32,7 +32,7 @@ class SatkerController extends Controller
         if (request()->ajax()) {
             DB::statement(DB::raw('set @rownum=0'));
             $data = Satker::select([DB::raw('@rownum  := @rownum  + 1 AS rownum'),
-            'id','uuid','nama','wilayah','created_by','edited_by'])->get();
+            'id','uuid','nama','wilayah','created_by','edited_by']);
 
             return Datatables::of($data)
                     ->addIndexColumn()
