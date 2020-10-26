@@ -4,6 +4,9 @@
 
 @section('css')
 <link rel="stylesheet" media="screen, print" href="{{asset('css/formplugins/select2/select2.bundle.css')}}">
+<link rel="stylesheet" media="screen, print" href="{{asset('css/formplugins/summernote/summernote.css')}}">
+<link rel="stylesheet" media="screen, print" href="{{asset('css/formplugins/dropzone/dropzone.css')}}">
+<link rel="stylesheet" media="screen, print" href="{{asset('css/formplugins/bootstrap-datepicker/bootstrap-datepicker.css')}}">
 @endsection
 
 @section('content')
@@ -36,18 +39,20 @@
                         @endif
                     </div>
                     <div class="form-group col-md-4 mb-3">
-                        {{ Form::label('jenis_pekerjaan','Jenis pekerjaan',['class' => 'required form-label'])}}
-                        {{ Form::text('jenis_pekerjaan',$pekerjaan->jenis_pekerjaan,['placeholder' => 'Jenis Pekerjaan','class' => 'form-control '.($errors->has('jenis_pekerjaan') ? 'is-invalid':''),'required'])}}
-                        @if ($errors->has('jenis_pekerjaan'))
-                        <div class="invalid-feedback">{{ $errors->first('jenis_pekerjaan') }}</div>
-                        @endif
+                            {!! Form::label('jenis_pekerjaan', 'Jenis Pekerjaan', ['class' => 'required form-label']) !!}
+                            {!! Form::select('jenis_pekerjaan', $jenkers, $pekerjaan->jenker->nama, ['class' => 'select2 form-control'.($errors->has('jenis_pekerjaan') ? 'is-invalid':''), 'required'
+                            => '',]) !!}
+                            @if ($errors->has('jenis_pekerjaan'))
+                            <div class="help-block text-danger">{{ $errors->first('jenis_pekerjaan') }}</div>
+                            @endif
                     </div>
                     <div class="form-group col-md-4 mb-3">
                         {{ Form::label('satker_id','ID Satuan Kerja',['class' => 'required form-label'])}}
-                        {{ Form::text('satker_id',$pekerjaan->satker_id,['placeholder' => 'ID Satuan Kerja','class' => 'form-control '.($errors->has('satker_id') ? 'is-invalid':''),'required'])}}
-                        @if ($errors->has('satker_id'))
-                        <div class="invalid-feedback">{{ $errors->first('satker_id') }}</div>
-                        @endif
+                        {!! Form::select('satker_id', $satkers, $pekerjaan->satker->nama, ['class' => 'select2 form-control'.($errors->has('satker_id') ? 'is-invalid':''), 'required'
+                            => '',]) !!}
+                            @if ($errors->has('satker_id'))
+                            <div class="help-block text-danger">{{ $errors->first('satler_id') }}</div>
+                            @endif
                     </div>
                     <div class="form-group col-md-4 mb-3">
                         {{ Form::label('tahun_mulai','Tahun Mulai',['class' => 'required form-label'])}}

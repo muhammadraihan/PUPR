@@ -71,9 +71,16 @@ class JenisPekerjaanController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'nama' => 'required',
-        ]);
+        $rules = [
+            'nama' => 'required|alpha',
+        ];
+
+        $messages = [
+            '*.required' => 'Field tidak boleh kosong !',
+            '*.alpha' => 'Harus diisi dengan huruf !',
+        ];
+
+        $this->validate($request, $rules, $messages);
 
         $jenker = new JenisPekerjaan();
         $jenker->nama = $request->nama;
@@ -118,9 +125,16 @@ class JenisPekerjaanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
-            'nama' => 'required|min:3',
-          ]);
+        $rules = [
+            'nama' => 'required|alpha',
+        ];
+
+        $messages = [
+            '*.required' => 'Field tidak boleh kosong !',
+            '*.alpha' => 'Harus diisi dengan huruf !',
+        ];
+
+        $this->validate($request, $rules, $messages);
           // Saving data
           $jenker = JenisPekerjaan::uuid($id);
           $jenker->nama = $request->nama;

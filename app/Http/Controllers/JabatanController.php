@@ -71,9 +71,16 @@ class JabatanController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'nama' => 'required',
-        ]);
+        $rules = [
+            'nama' => 'required|alpha',
+        ];
+
+        $messages = [
+            '*.required' => 'Field tidak boleh kosong !',
+            '*.alpha' => 'Harus diisi dengan huruf !',
+        ];
+
+        $this->validate($request, $rules, $messages);
 
         $jabatan = new Jabatan();
         $jabatan->nama = $request->nama;
@@ -118,9 +125,16 @@ class JabatanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
-            'nama' => 'required|min:3',
-          ]);
+        $rules = [
+            'nama' => 'required|alpha',
+        ];
+
+        $messages = [
+            '*.required' => 'Field tidak boleh kosong !',
+            '*.alpha' => 'Harus diisi dengan huruf !',
+        ];
+
+        $this->validate($request, $rules, $messages);
           // Saving data
           $jabatan = Jabatan::uuid($id);
           $jabatan->nama = $request->nama;

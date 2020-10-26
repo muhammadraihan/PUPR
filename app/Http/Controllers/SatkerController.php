@@ -72,10 +72,17 @@ class SatkerController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'nama' => 'required',
+        $rules = [
+            'nama' => 'required|alpha',
             'wilayah' => 'required',
-        ]);
+        ];
+
+        $messages = [
+            '*.required' => 'Field tidak boleh kosong !',
+            '*.alpha' => 'Harus diisi dengan huruf !',
+        ];
+
+        $this->validate($request, $rules, $messages);
 
         $satker = new Satker();
         $satker->nama = $request->nama;
@@ -123,10 +130,17 @@ class SatkerController extends Controller
     {
         // dd(request()->all());
         // Validation
-      $this->validate($request,[
-        'nama' => 'required',
-        'wilayah' => 'required',
-      ]);
+        $rules = [
+            'nama' => 'required|alpha',
+            'wilayah' => 'required',
+        ];
+
+        $messages = [
+            '*.required' => 'Field tidak boleh kosong !',
+            '*.alpha' => 'Harus diisi dengan huruf !',
+        ];
+
+        $this->validate($request, $rules, $messages);
       // Saving data
       $satker = Satker::uuid($id);
       $satker->nama = $request->nama;
