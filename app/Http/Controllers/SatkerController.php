@@ -83,13 +83,12 @@ class SatkerController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'nama' => 'required|alpha',
+            'nama' => 'required',
             'wilayah' => 'required',
         ];
 
         $messages = [
             '*.required' => 'Field tidak boleh kosong !',
-            '*.alpha' => 'Harus diisi dengan huruf !',
         ];
 
         $this->validate($request, $rules, $messages);
@@ -138,16 +137,14 @@ class SatkerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd(request()->all());
         // Validation
         $rules = [
-            'nama' => 'required|alpha',
+            'nama' => 'required',
             'wilayah' => 'required',
         ];
 
         $messages = [
             '*.required' => 'Field tidak boleh kosong !',
-            '*.alpha' => 'Harus diisi dengan huruf !',
         ];
 
         $this->validate($request, $rules, $messages);
@@ -171,7 +168,6 @@ class SatkerController extends Controller
      */
     public function destroy($id)
     {
-        // dd('sdadas');
         $satker = Satker::uuid($id);
         $satker->delete();
      

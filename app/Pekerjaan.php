@@ -20,7 +20,7 @@ class Pekerjaan extends Model
      *
      * @var string
      */
-    protected static $logName = 'user';
+    protected static $logName = 'pekerjaan';
 
     /**
      * Logging only the changed attributes

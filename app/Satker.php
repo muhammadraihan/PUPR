@@ -20,7 +20,7 @@ class Satker extends Model
      *
      * @var string
      */
-    protected static $logName = 'user';
+    protected static $logName = 'satker';
 
     /**
      * Logging only the changed attributes

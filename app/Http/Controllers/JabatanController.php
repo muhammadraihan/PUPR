@@ -82,12 +82,11 @@ class JabatanController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'nama' => 'required|alpha',
+            'nama' => 'required',
         ];
 
         $messages = [
             '*.required' => 'Field tidak boleh kosong !',
-            '*.alpha' => 'Harus diisi dengan huruf !',
         ];
 
         $this->validate($request, $rules, $messages);
@@ -136,12 +135,11 @@ class JabatanController extends Controller
     public function update(Request $request, $id)
     {
         $rules = [
-            'nama' => 'required|alpha',
+            'nama' => 'required',
         ];
 
         $messages = [
             '*.required' => 'Field tidak boleh kosong !',
-            '*.alpha' => 'Harus diisi dengan huruf !',
         ];
 
         $this->validate($request, $rules, $messages);
