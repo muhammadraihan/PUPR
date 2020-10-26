@@ -43,6 +43,16 @@ class PekerjaanController extends Controller
                     ->editColumn('satker_id',function($row){
                         return $row->satker->nama;
                     })
+                    ->editColumn('created_by',function($row){
+                        return $row->userCreate->name;
+                    })
+                    ->editColumn('edited_by',function($row){
+                        if($row->edited_by != null){
+                        return $row->userEdit->name;
+                        }else{
+                            return null;
+                        }
+                    })
                     ->addColumn('action', function($row){
                         // if(auth()->user()->can('edit','delete')){
                             return '<a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('pekerjaan.edit',$row->uuid).'"><i class="fal fa-edit"></i></a>
@@ -68,8 +78,8 @@ class PekerjaanController extends Controller
      */
     public function create()
     {
-        $jenkers = JenisPekerjaan::all()->pluck('nama','id');
-        $satkers = Satker::all()->pluck('nama','id');
+        $jenkers = JenisPekerjaan::all()->pluck('nama','uuid');
+        $satkers = Satker::all()->pluck('nama','uuid');
         return view('pekerjaan.create',compact('jenkers','satkers'));
     }
 
@@ -129,8 +139,8 @@ class PekerjaanController extends Controller
      */
     public function edit($id)
     {
-        $jenkers = JenisPekerjaan::all()->pluck('nama','id');
-        $satkers = Satker::all()->pluck('nama','id');
+        $jenkers = JenisPekerjaan::all()->pluck('nama','uuid');
+        $satkers = Satker::all()->pluck('nama','uuid');
         $pekerjaan = Pekerjaan::uuid($id);
       
         return view('pekerjaan.edit', compact('pekerjaan','jenkers','satkers'));

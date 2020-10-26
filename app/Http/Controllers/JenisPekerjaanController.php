@@ -35,6 +35,16 @@ class JenisPekerjaanController extends Controller
 
             return Datatables::of($data)
                     ->addIndexColumn()
+                    ->editColumn('created_by',function($row){
+                        return $row->userCreate->name;
+                    })
+                    ->editColumn('edited_by',function($row){
+                        if($row->edited_by != null){
+                        return $row->userEdit->name;
+                        }else{
+                            return null;
+                        }
+                    })
                     ->addColumn('action', function($row){
                     if(auth()->user()->can('edit','delete')){
                         return '<a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('jenker.edit',$row->uuid).'"><i class="fal fa-edit"></i></a>

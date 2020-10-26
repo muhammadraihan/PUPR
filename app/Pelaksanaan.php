@@ -72,6 +72,6 @@ class Pelaksanaan extends Model
 
     public function pekerjaan()
     {
-        return $this->belongsTo(Pekerjaan::class, 'pekerjaan_id', 'id');
+        return $this->belongsTo(Pekerjaan::class, 'pekerjaan_id', 'uuid');
     }
 }
