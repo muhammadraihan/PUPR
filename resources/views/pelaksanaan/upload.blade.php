@@ -27,7 +27,7 @@
                         Info Pekerjaan
                     </div>
                     {!! Form::open(['route' => 'pelaksanaan.upload','method' => 'POST','class' =>
-                    'needs-validation','novalidate']) !!}
+                    'needs-validation','novalidate','enctype' => 'multipart/form-data']) !!}
                     <div class="row">
                         <div class="form-group col-md-8 mb-3">
                             {!! Form::label('pekerjaan', 'Nama Paket', ['class' => 'form-label']) !!}
@@ -95,7 +95,7 @@
                 </div>
                 <div
                     class="panel-content border-faded border-left-0 border-right-0 border-bottom-0 d-flex flex-row align-items-center">
-                    <button class="btn btn-primary ml-auto" type="submit">Submit</button>
+                    <button id="upload" class="btn btn-primary ml-auto" type="submit">Submit</button>
                 </div>
                 {!! Form::close() !!}
             </div>
@@ -109,23 +109,29 @@
 <script>
     // prevent dropzone attach twice
     Dropzone.autoDiscover = false;
+    Dropzone.autoProcessQueue = false;
     $(document).ready(function(){
         $("#dropzone-early").dropzone({ 
-            autoProcessQueue: false,
             paramName: "image-early",
-            url: "/file/post",
+            url: "{{route('pelaksanaan.upload')}}",
             addRemoveLinks: true,
+            init: function(){
+                this.on("addedfile", function(file) { 
+                    $("#upload").click(function (e){
+                        e.preventDefault();
+                        Dropzone.autoProcessQueue = true;
+                    )};
+                });
+            }
         });
         $("#dropzone-before").dropzone({
-            autoProcessQueue: false,
             paramName: "image-before",
-            url: "/file/post",
+            url: "{{route('pelaksanaan.upload')}}",
             addRemoveLinks: true,
         });
         $("#dropzone-present").dropzone({
-            autoProcessQueue: false,
             paramName: "image-now",
-            url: "/file/post",
+            url: "{{route('pelaksanaan.upload')}}",
             addRemoveLinks: true,
         });
     });

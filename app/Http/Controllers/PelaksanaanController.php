@@ -218,8 +218,8 @@ class PelaksanaanController extends Controller
         return view('pelaksanaan.upload',compact('pelaksanaan'));
     }
 
-    public function uploadImages()
+    public function uploadImages(Request $request)
     {
-        # code...
+        dd($request->all());
     }
 }
