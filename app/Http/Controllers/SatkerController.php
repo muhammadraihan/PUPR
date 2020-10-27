@@ -32,10 +32,20 @@ class SatkerController extends Controller
         if (request()->ajax()) {
             DB::statement(DB::raw('set @rownum=0'));
             $data = Satker::select([DB::raw('@rownum  := @rownum  + 1 AS rownum'),
-            'id','uuid','nama','wilayah','created_by','edited_by'])->get();
+            'id','uuid','nama','wilayah','created_by','edited_by']);
 
             return Datatables::of($data)
                     ->addIndexColumn()
+                    ->editColumn('created_by',function($row){
+                        return $row->userCreate->name;
+                    })
+                    ->editColumn('edited_by',function($row){
+                        if($row->edited_by != null){
+                        return $row->userEdit->name;
+                        }else{
+                            return null;
+                        }
+                    })
                     ->addColumn('action', function($row){
                     if(auth()->user()->can('edit','delete')){
                         return '
@@ -72,10 +82,16 @@ class SatkerController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $rules = [
             'nama' => 'required',
             'wilayah' => 'required',
-        ]);
+        ];
+
+        $messages = [
+            '*.required' => 'Field tidak boleh kosong !',
+        ];
+
+        $this->validate($request, $rules, $messages);
 
         $satker = new Satker();
         $satker->nama = $request->nama;
@@ -121,12 +137,17 @@ class SatkerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd(request()->all());
         // Validation
-      $this->validate($request,[
-        'nama' => 'required',
-        'wilayah' => 'required',
-      ]);
+        $rules = [
+            'nama' => 'required',
+            'wilayah' => 'required',
+        ];
+
+        $messages = [
+            '*.required' => 'Field tidak boleh kosong !',
+        ];
+
+        $this->validate($request, $rules, $messages);
       // Saving data
       $satker = Satker::uuid($id);
       $satker->nama = $request->nama;
@@ -147,7 +168,6 @@ class SatkerController extends Controller
      */
     public function destroy($id)
     {
-        // dd('sdadas');
         $satker = Satker::uuid($id);
         $satker->delete();
      

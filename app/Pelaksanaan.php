@@ -43,7 +43,7 @@ class Pelaksanaan extends Model
      *
      * @var string
      */
-    protected static $logName = 'user';
+    protected static $logName = 'pelaksanaan';
 
     /**
      * Logging only the changed attributes
@@ -72,6 +72,6 @@ class Pelaksanaan extends Model
 
     public function pekerjaan()
     {
-        return $this->belongsTo(Pekerjaan::class, 'pekerjaan_id', 'id');
+        return $this->belongsTo(Pekerjaan::class, 'pekerjaan_id', 'uuid');
     }
 }

@@ -31,10 +31,20 @@ class JenisPekerjaanController extends Controller
         if (request()->ajax()) {
             DB::statement(DB::raw('set @rownum=0'));
             $data = JenisPekerjaan::select([DB::raw('@rownum  := @rownum  + 1 AS rownum'),
-            'id','uuid','nama','created_by','edited_by'])->get();
+            'id','uuid','nama','created_by','edited_by']);
 
             return Datatables::of($data)
                     ->addIndexColumn()
+                    ->editColumn('created_by',function($row){
+                        return $row->userCreate->name;
+                    })
+                    ->editColumn('edited_by',function($row){
+                        if($row->edited_by != null){
+                        return $row->userEdit->name;
+                        }else{
+                            return null;
+                        }
+                    })
                     ->addColumn('action', function($row){
                     if(auth()->user()->can('edit','delete')){
                         return '<a class="btn btn-success btn-sm btn-icon waves-effect waves-themed" href="'.route('jenker.edit',$row->uuid).'"><i class="fal fa-edit"></i></a>
@@ -71,9 +81,15 @@ class JenisPekerjaanController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $rules = [
             'nama' => 'required',
-        ]);
+        ];
+
+        $messages = [
+            '*.required' => 'Field tidak boleh kosong !',
+        ];
+
+        $this->validate($request, $rules, $messages);
 
         $jenker = new JenisPekerjaan();
         $jenker->nama = $request->nama;
@@ -118,9 +134,15 @@ class JenisPekerjaanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
-            'nama' => 'required|min:3',
-          ]);
+        $rules = [
+            'nama' => 'required',
+        ];
+
+        $messages = [
+            '*.required' => 'Field tidak boleh kosong !',
+        ];
+
+        $this->validate($request, $rules, $messages);
           // Saving data
           $jenker = JenisPekerjaan::uuid($id);
           $jenker->nama = $request->nama;

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Traits\Authorizable;
 
 use App\PembebasanLahan;
+use App\Pekerjaan;
 use Carbon\Carbon;
 
 use Auth;
@@ -32,9 +33,12 @@ class PembebasanLahanController extends Controller
         if (request()->ajax()) {
             DB::statement(DB::raw('set @rownum=0'));
             $lahan = PembebasanLahan::select([DB::raw('@rownum  := @rownum  + 1 AS rownum'),
-            'id','uuid','pekerjaan_id','kebutuhan','sudah_bebas','belum_bebas','dokumentasi_id','permasalahan','tindak_lanjut','created_by','edited_by'])->get();
+            'id','uuid','pekerjaan_id','kebutuhan','sudah_bebas','belum_bebas','dokumentasi_id','permasalahan','tindak_lanjut','created_by','edited_by']);
     
             return DataTables::of($lahan)
+            ->editColumn('pekerjaan_id', function($lahans){
+                return $lahans->pekerjaan->title;
+            })
             ->addColumn('action', function ($lahans) {
               if(auth()->user()->can('edit_lahan','delete_lahan')){
                 return '
@@ -60,7 +64,8 @@ class PembebasanLahanController extends Controller
      */
     public function create()
     {
-        return view('lahan.create');
+        $pekerjaan = Pekerjaan::all();
+        return view('lahan.create',compact('pekerjaan'));
     }
 
     /**
@@ -71,15 +76,15 @@ class PembebasanLahanController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $rules = [
             'pekerjaan_id' => 'required',
             'kebutuhan' => 'required',
             'sudah_bebas' => 'required',
             'belum_bebas' => 'required',
             'permasalahan' => 'required',
             'tindak_lanjut' => 'required',
-            'dokumentasi_id' => 'required|mimes:pdf,xlx,csv|max:2048',
-        ]);
+            'dokumentasi_id' => 'required|mimes:pdf,xlx,csv,img,png,jpg,jpeg|max:2048',
+        ];
 
         $messages = [
             '*.required' => 'Data Harus Di isi',
@@ -87,24 +92,27 @@ class PembebasanLahanController extends Controller
             '*.max' => 'Size File Tidak Boleh Lebih Dari 2Mb'
         ];
         
-            if($request->hasfile('dokumentasi_id')){
-                $file = $request->file('dokumentasi_id');
-                $filename = md5(uniqid(mt_rand(),true)).'.'.$file->getClientOriginalExtension();
-                $path = Storage::putFileAs('public/pembebasanLahan/',$file,$filename);
-            }
-            $lahan = new PembebasanLahan();
-            $lahan->pekerjaan_id = $request->pekerjaan_id;
-            $lahan->kebutuhan = $request->kebutuhan;
-            $lahan->sudah_bebas = $request->sudah_bebas;
-            $lahan->belum_bebas = $request->belum_bebas;
-            $lahan->permasalahan = $request->permasalahan;
-            $lahan->tindak_lanjut = $request->tindak_lanjut;
-            $lahan->dokumentasi_id = $filename;
-            $lahan->created_by = Auth::user()->uuid;
-            $lahan->save();
+        $this->validate($request, $rules, $messages);
 
-            toastr()->success('New Pembebasan Lahan Added', 'Success');
-            return redirect()->route('lahan.index');
+        if($request->hasfile('dokumentasi_id')){
+            $file = $request->file('dokumentasi_id');
+            $filename = md5(uniqid(mt_rand(),true)).'.'.$file->getClientOriginalExtension();
+            $path = Storage::putFileAs('public/pembebasanLahan/',$file,$filename);
+        }
+        
+        $lahan = new PembebasanLahan();
+        $lahan->pekerjaan_id = $request->pekerjaan_id;
+        $lahan->kebutuhan = $request->kebutuhan;
+        $lahan->sudah_bebas = $request->sudah_bebas;
+        $lahan->belum_bebas = $request->belum_bebas;
+        $lahan->permasalahan = $request->permasalahan;
+        $lahan->tindak_lanjut = $request->tindak_lanjut;
+        $lahan->dokumentasi_id = $filename;
+        $lahan->created_by = Auth::user()->uuid;
+        $lahan->save();
+
+        toastr()->success('New Pembebasan Lahan Added', 'Success');
+        return redirect()->route('lahan.index');
     }
 
     /**
@@ -127,7 +135,8 @@ class PembebasanLahanController extends Controller
     public function edit($id)
     {
         $lahan = PembebasanLahan::uuid($id);
-        return view('lahan.edit',compact('lahan'));
+        $pekerjaan = Pekerjaan::all();
+        return view('lahan.edit',compact('lahan','pekerjaan'));
     }
 
     /**
@@ -140,7 +149,7 @@ class PembebasanLahanController extends Controller
     public function update(Request $request, $id)
     {
         // dd($request->all());
-        $this->validate($request, [
+        $rules = [
             'pekerjaan_id' => 'required',
             'kebutuhan' => 'required',
             'sudah_bebas' => 'required',
@@ -148,12 +157,14 @@ class PembebasanLahanController extends Controller
             'permasalahan' => 'required',
             'tindak_lanjut' => 'required',
             'dokumentasi_id' => 'mimes:pdf,xlx,csv|max:2048',
-        ]);
+        ];
 
         $messages = [
             '*.required' => 'Data Harus Di isi',
             '*.mimes' => 'Type File Harus pdf',
         ];
+
+        $this->validate($request, $rules, $messages);
 
         if($request->hasfile('file')){
             $file = $request->file('file');
