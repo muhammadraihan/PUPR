@@ -20,7 +20,7 @@ class Jabatan extends Model
      *
      * @var string
      */
-    protected static $logName = 'user';
+    protected static $logName = 'jabatan';
 
     /**
      * Logging only the changed attributes

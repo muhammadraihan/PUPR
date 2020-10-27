@@ -19,7 +19,7 @@ class JenisPekerjaan extends Model
      *
      * @var string
      */
-    protected static $logName = 'user';
+    protected static $logName = 'jenispekerjaan';
 
     /**
      * Logging only the changed attributes

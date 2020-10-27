@@ -32,7 +32,7 @@ class SatkerController extends Controller
         if (request()->ajax()) {
             DB::statement(DB::raw('set @rownum=0'));
             $data = Satker::select([DB::raw('@rownum  := @rownum  + 1 AS rownum'),
-            'id','uuid','nama','wilayah','created_by','edited_by'])->get();
+            'id','uuid','nama','wilayah','created_by','edited_by']);
 
             return Datatables::of($data)
                     ->addIndexColumn()
@@ -83,13 +83,12 @@ class SatkerController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'nama' => 'required|alpha',
+            'nama' => 'required',
             'wilayah' => 'required',
         ];
 
         $messages = [
             '*.required' => 'Field tidak boleh kosong !',
-            '*.alpha' => 'Harus diisi dengan huruf !',
         ];
 
         $this->validate($request, $rules, $messages);
@@ -138,16 +137,14 @@ class SatkerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd(request()->all());
         // Validation
         $rules = [
-            'nama' => 'required|alpha',
+            'nama' => 'required',
             'wilayah' => 'required',
         ];
 
         $messages = [
             '*.required' => 'Field tidak boleh kosong !',
-            '*.alpha' => 'Harus diisi dengan huruf !',
         ];
 
         $this->validate($request, $rules, $messages);
@@ -171,7 +168,6 @@ class SatkerController extends Controller
      */
     public function destroy($id)
     {
-        // dd('sdadas');
         $satker = Satker::uuid($id);
         $satker->delete();
      

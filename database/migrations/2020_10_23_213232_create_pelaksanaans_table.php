@@ -16,7 +16,7 @@ class CreatePelaksanaansTable extends Migration
         Schema::create('pelaksanaans', function (Blueprint $table) {
             $table->id();
             $table->string('uuid')->unique();
-            $table->bigInteger('pekerjaan_id')->nullable();
+            $table->string('pekerjaan_id')->nullable();
             $table->bigInteger('nomor_pelaksanaan')->nullable();
             $table->date('tanggal_pelaksanaan')->nullable();
             $table->float('rencana_fisik',8,2)->nullable();

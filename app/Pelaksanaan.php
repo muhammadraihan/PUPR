@@ -43,7 +43,7 @@ class Pelaksanaan extends Model
      *
      * @var string
      */
-    protected static $logName = 'user';
+    protected static $logName = 'pelaksanaan';
 
     /**
      * Logging only the changed attributes

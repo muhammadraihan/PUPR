@@ -31,7 +31,7 @@ class JenisPekerjaanController extends Controller
         if (request()->ajax()) {
             DB::statement(DB::raw('set @rownum=0'));
             $data = JenisPekerjaan::select([DB::raw('@rownum  := @rownum  + 1 AS rownum'),
-            'id','uuid','nama','created_by','edited_by'])->get();
+            'id','uuid','nama','created_by','edited_by']);
 
             return Datatables::of($data)
                     ->addIndexColumn()
@@ -82,12 +82,11 @@ class JenisPekerjaanController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'nama' => 'required|alpha',
+            'nama' => 'required',
         ];
 
         $messages = [
             '*.required' => 'Field tidak boleh kosong !',
-            '*.alpha' => 'Harus diisi dengan huruf !',
         ];
 
         $this->validate($request, $rules, $messages);
@@ -136,12 +135,11 @@ class JenisPekerjaanController extends Controller
     public function update(Request $request, $id)
     {
         $rules = [
-            'nama' => 'required|alpha',
+            'nama' => 'required',
         ];
 
         $messages = [
             '*.required' => 'Field tidak boleh kosong !',
-            '*.alpha' => 'Harus diisi dengan huruf !',
         ];
 
         $this->validate($request, $rules, $messages);

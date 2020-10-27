@@ -54,20 +54,24 @@
                             <div class="help-block text-danger">{{ $errors->first('satler_id') }}</div>
                             @endif
                     </div>
-                    <div class="form-group col-md-4 mb-3">
-                        {{ Form::label('tahun_mulai','Tahun Mulai',['class' => 'required form-label'])}}
-                        {{ Form::text('tahun_mulai',$pekerjaan->tahun_mulai,['placeholder' => 'Tahun Mulai','class' => 'form-control '.($errors->has('tahun_mulai') ? 'is-invalid':''),'required'])}}
-                        @if ($errors->has('tahun_mulai'))
-                        <div class="invalid-feedback">{{ $errors->first('tahun_mulai') }}</div>
-                        @endif
-                    </div>
-                    <div class="form-group col-md-4 mb-3">
-                        {{ Form::label('tahun_selesai','Tahun Selesai',['class' => 'required form-label'])}}
-                        {{ Form::text('tahun_selesai',$pekerjaan->tahun_selesai,['placeholder' => 'Tahun Selesai','class' => 'form-control '.($errors->has('tahun_selesai') ? 'is-invalid':''),'required'])}}
-                        @if ($errors->has('tahun_selesai'))
-                        <div class="invalid-feedback">{{ $errors->first('tahun_selesai') }}</div>
-                        @endif
-                    </div>
+                    <div class="form-group col-md-3 mb-3">
+                            {{ Form::label('tahun_mulai','Tahun Mulai',['class' => 'required form-label'])}}
+                            <div class="input-group">
+                                {{ Form::text('tahun_mulai',$pekerjaan->tahun_mulai,['id'=>'mulai','placeholder' => 'Tahun Mulai','class' => 'form-control '.($errors->has('tahun_mulai') ? 'is-invalid':''),'required'])}}
+                                @if ($errors->has('tahun_mulai'))
+                                <div class="invalid-feedback">{{ $errors->first('tahun_mulai') }}</div>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group col-md-3 mb-3">
+                            {{ Form::label('tahun_selesai','Tahun Selesai',['class' => 'required form-label'])}}
+                            <div class="input-group">
+                                {{ Form::text('tahun_selesai',$pekerjaan->tahun_selesai,['id'=>'selesai','placeholder' => 'Tahun Selesai','class' => 'form-control '.($errors->has('tahun_selesai') ? 'is-invalid':''),'required'])}}
+                                @if ($errors->has('tahun_selesai'))
+                                <div class="invalid-feedback">{{ $errors->first('tahun_selesai') }}</div>
+                                @endif
+                            </div>
+                        </div>
                 <div
                     class="panel-content border-faded border-left-0 border-right-0 border-bottom-0 d-flex flex-row align-items-center">
                     <button class="btn btn-primary ml-auto" type="submit">Submit</button>
@@ -81,38 +85,43 @@
 
 @section('js')
 <script src="{{asset('js/formplugins/select2/select2.bundle.js')}}"></script>
+<script src="{{asset('js/formplugins/bootstrap-datepicker/bootstrap-datepicker.js')}}"></script>
 <script>
-    $(document).ready(function(){
-        $('.select2').select2();
-        
-        // Generate a password string
-        function randString(){
-            var chars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNP123456789";
-            var string_length = 8;
-            var randomstring = '';
-            for (var i = 0; i < string_length; i++) {
-                var rnum = Math.floor(Math.random() * chars.length);
-                randomstring += chars.substring(rnum, rnum + 1);
-            }
-            return randomstring;
-        }
-        
-        // Create a new password
-        $(".getNewPass").click(function(){
-            var field = $('#password').closest('div').find('input[name="password"]');
-            field.val(randString(field));
+
+    var controls = {
+        leftArrow: '<i class="fal fa-angle-left" style="font-size: 1.25rem"></i>',
+        rightArrow: '<i class="fal fa-angle-right" style="font-size: 1.25rem"></i>'
+    }
+    var runDatePicker = function (){
+        $('#mulai').datepicker({
+            autoclose:true,
+            format:'yyyy',
+            todayHighlight: true,
+            todayBtn: "linked",
+            orientation: "bottom left",
+            clearBtn: true,
+            templates: controls,
+            viewMode: "years",
+            minViewMode: "years",
         });
 
-        //Enable input and button change password
-        $('#enablePassChange').click(function() {
-            if ($(this).is(':checked')) {
-                $('#passwordForm').attr('disabled',false); //enable input
-                $('#getNewPass').attr('disabled',false); //enable button
-            } else {
-                    $('#passwordForm').attr('disabled', true); //disable input
-                    $('#getNewPass').attr('disabled', true); //disable button
-            }
+        $('#selesai').datepicker({
+            autoclose:true,
+            format:'yyyy-mm-dd',
+            todayHighlight: true,
+            todayBtn: "linked",
+            orientation: "bottom left",
+            clearBtn: true,
+            templates: controls,
+            viewMode: "years",
+            minViewMode: "years",
         });
+    }
+
+    $(document).ready(function(){
+        $('.select2').select2();
+
+        runDatePicker();
     });
 </script>
 @endsection
